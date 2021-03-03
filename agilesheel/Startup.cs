@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using agilesheel.Models;
 
 namespace agilesheel
 {
@@ -19,15 +22,17 @@ namespace agilesheel
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            //services.AddDbContext<agilesheelContext>(options =>
-            //        options.UseSqlServer(Configuration.GetConnectionString("agilesheelContext")));
+            services.AddDbContext<StoreDbContext>(options => {
+                options.UseSqlServer(
+                    Configuration["ConnectionStrings:agilesheelConnection"]);
+            });
+            services.AddScoped<IStoreRepository, EFStoreRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +61,7 @@ namespace agilesheel
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            Models.Seeds.MovieSeed.EnsurePopulated(app);
         }
     }
 }
