@@ -8,5 +8,7 @@ namespace agilesheel.Models
             : base(options) { }
 
         public DbSet<Movie> Movies { get; set; }
+
+        public DbSet<Show> Shows { get; set; }
     }
 }
