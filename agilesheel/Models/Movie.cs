@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Models
 {
-    public class MovieModel
+    public class Movie
     {
         public int Id { get; set; }
 
@@ -22,5 +22,7 @@ namespace agilesheel.Models
         public string ParentalRating { get; set; }
 
         public bool Is3D { get; set; }
+
+        public string PosterUrl { get; set; }
     }
 }

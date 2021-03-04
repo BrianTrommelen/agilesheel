@@ -7,6 +7,6 @@ namespace agilesheel.Models
 {
     public interface IStoreRepository
     {
-        IQueryable<MovieModel> Movies { get; }
+        IQueryable<Movie> Movies { get; }
     }
 }

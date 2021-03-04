@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Models
 {
-    public class TheaterModel
+    public class Theater
     {
         private int Id { get; set; }
 

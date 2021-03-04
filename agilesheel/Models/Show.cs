@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Models
 {
-    public class ShowModel
+    public class Show
     {
         private DateTime StartTime { get; set; }
         private TimeSpan Duration { get; set; }
-        private MovieModel Movie { get; set; }
-        private TheaterModel Theather { get; set; }
+        private Movie Movie { get; set; }
+        private Theater Theather { get; set; }
 
         //public void SetDuration(MovieModel lenght);
     }
