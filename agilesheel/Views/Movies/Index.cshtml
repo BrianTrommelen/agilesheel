@@ -1,0 +1,92 @@
+﻿@model IEnumerable<agilesheel.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Length)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Synopsis)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ParentalRating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Is3D)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Length)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Synopsis)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentalRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Is3D)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id#">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>*@
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-3">
+                <a class="movie-item" asp-action="Details" asp-route-id="@item.Id">
+                    <img src="@Html.DisplayFor(modelItem => item.PosterUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" height="300" />
+                    <h1 class="h6">@Html.DisplayFor(modelItem => item.Title)</h1>
+                    <span>@Html.DisplayFor(modelItem => item.Genre)</span>
+                    <span>Pegi: @Html.DisplayFor(modelItem => item.ParentalRating)</span>
+
+                    @if (item.Is3D)
+                    {
+                        <span>3D</span>
+                    }
+                </a>
+            </div>
+        }
+    </div>
+</div>

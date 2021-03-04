@@ -1,0 +1,9 @@
+﻿.movie-item {
+    display: inline-block;
+    width: 100%;
+}
+
+.movie-item img {
+    width: 100%;
+    object-fit: cover;
+}

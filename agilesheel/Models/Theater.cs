@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Models
 {
-    public interface IStoreRepository
+    public class Theater
     {
-        IQueryable<Movie> Movies { get; }
+        private int Id { get; set; }
+
+        private int Seats { get; set; }
+
+        private bool Has3D { get; set; }
     }
 }

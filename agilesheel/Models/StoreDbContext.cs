@@ -7,6 +7,6 @@ namespace agilesheel.Models
         public StoreDbContext(DbContextOptions<StoreDbContext> options) 
             : base(options) { }
 
-        public DbSet<MovieModel> Movies { get; set; }
+        public DbSet<Movie> Movies { get; set; }
     }
 }

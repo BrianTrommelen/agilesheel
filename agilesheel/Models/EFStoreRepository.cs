@@ -14,6 +14,6 @@ namespace agilesheel.Models
             context = ctx;
         }
 
-        public IQueryable<MovieModel> Movies => context.Movies;
+        public IQueryable<Movie> Movies => context.Movies;
     }
 }
