@@ -9,10 +9,12 @@ namespace agilesheel.Models
     public class Theater
     {
         [Key]
-        private int Id { get; set; }
+        public int Id { get; set; }
 
-        private int Seats { get; set; }
+        public int Seats { get; set; }
 
-        private bool Has3D { get; set; }
+        public bool Has3D { get; set; }
+
+        public ICollection<Show> Shows { get; set; }
     }
 }

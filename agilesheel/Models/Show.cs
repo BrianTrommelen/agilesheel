@@ -8,13 +8,18 @@ namespace agilesheel.Models
 {
     public class Show
     {
-        private int Id { get; set; }
-        private DateTime StartTime { get; set; }
-        private TimeSpan Duration { get; set; }
+        public int MovieId { get; set; }
 
-        //private ICollection<Movie> Movies { get; set; }
-        //private Theater Theather { get; set; }
+        public Movie Movie { get; set; }
 
-        //public void SetDuration(MovieModel lenght);
+        public int TheaterId { get; set; }
+
+        public Theater Theather { get; set; }
+
+        public DateTime StartTime { get; set; }
+
+        public TimeSpan Duration { get; set; }
+
+        public void SetDuration(Movie length) { }
     }
 }
