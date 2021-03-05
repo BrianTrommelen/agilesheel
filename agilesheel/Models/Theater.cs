@@ -11,10 +11,14 @@ namespace agilesheel.Models
         [Key]
         public int Id { get; set; }
 
-        public int Seats { get; set; }
+        public ICollection<SeatRow> SeatRows { get; set; }
 
         public bool Has3D { get; set; }
 
         public ICollection<Show> Shows { get; set; }
+
+        public int CinemaId { get; set; }
+
+        public Cinema Cinema { get; set; }
     }
 }

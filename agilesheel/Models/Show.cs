@@ -14,11 +14,13 @@ namespace agilesheel.Models
 
         public int TheaterId { get; set; }
 
-        public Theater Theather { get; set; }
+        public Theater Theater { get; set; }
 
         public DateTime StartTime { get; set; }
 
         public TimeSpan Duration { get; set; }
+
+        public ICollection<Ticket> Tickets { get; set; }
 
         public void SetDuration(Movie length) { }
     }
