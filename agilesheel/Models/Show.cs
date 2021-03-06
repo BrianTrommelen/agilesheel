@@ -8,19 +8,20 @@ namespace agilesheel.Models
 {
     public class Show
     {
-        public int MovieId { get; set; }
+        [Key]
+        public int Id { get; set; }
 
+        [Required]
         public Movie Movie { get; set; }
 
-        public int TheaterId { get; set; }
-
+        [Required]
         public Theater Theater { get; set; }
+
+        public ICollection<Ticket> Tickets { get; set; }
 
         public DateTime StartTime { get; set; }
 
         public TimeSpan Duration { get; set; }
-
-        public ICollection<Ticket> Tickets { get; set; }
 
         public void SetDuration(Movie length) { }
     }

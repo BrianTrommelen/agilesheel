@@ -11,6 +11,8 @@ namespace agilesheel.Models
         [Key]
         public int Id { get; set; }
 
+        public ICollection<Show> Shows { get; set; }
+
         public string Title { get; set; }
 
         public int Length { get; set; }
@@ -26,7 +28,5 @@ namespace agilesheel.Models
         public bool Is3D { get; set; }
 
         public string PosterUrl { get; set; }
-
-        public ICollection<Show> Shows { get; set; }
     }
 }

@@ -1,16 +1,19 @@
-﻿namespace agilesheel.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace agilesheel.Models
 {
     public class Ticket
     {
-        public int ShowId { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         public Show Show { get; set; }
-
-        public int SeatRowId { get; set; }
 
         public SeatRow SeatRow { get; set; }
 
         public string Name { get; set; }
+
+        public string Code { get; set; }
 
         public double Price { get; set; }
 
