@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Models
 {
-    public class Theater
+    public class Cinema
     {
         [Key]
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public bool Has3D { get; set; }
+        public string Location { get; set; }
 
-        public ICollection<SeatRow> SeatRows { get; set; }
-
-        public ICollection<Show> Shows { get; set; }
-
-        public Cinema Cinema { get; set; }
+        public ICollection<Theater> Theaters { get; set; }
     }
 }

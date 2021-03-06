@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using agilesheel.Models;
 
 namespace agilesheel.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210306101945_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace agilesheel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -103,13 +102,13 @@ namespace agilesheel.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<int>("MovieId")
+                    b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TheaterId")
+                    b.Property<int?>("TheaterId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -134,9 +133,6 @@ namespace agilesheel.Migrations
                     b.Property<bool>("Has3D")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CinemaId");
@@ -150,9 +146,6 @@ namespace agilesheel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -191,15 +184,11 @@ namespace agilesheel.Migrations
                 {
                     b.HasOne("agilesheel.Models.Movie", "Movie")
                         .WithMany("Shows")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MovieId");
 
                     b.HasOne("agilesheel.Models.Theater", "Theater")
                         .WithMany("Shows")
-                        .HasForeignKey("TheaterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TheaterId");
 
                     b.Navigation("Movie");
 
