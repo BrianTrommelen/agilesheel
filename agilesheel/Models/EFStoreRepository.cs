@@ -16,5 +16,6 @@ namespace agilesheel.Models
 
         public IQueryable<Movie> Movies => context.Movies;
         public IQueryable<Show> Shows => context.Shows;
+        public IQueryable<Ticket> Tickets => context.Tickets;
     }
 }

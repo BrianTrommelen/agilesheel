@@ -9,5 +9,6 @@ namespace agilesheel.Models
     {
         IQueryable<Movie> Movies { get; }
         IQueryable<Show> Shows { get; }
+        IQueryable<Ticket> Tickets { get; }
     }
 }
