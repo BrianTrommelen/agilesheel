@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
+using agilesheel.ViewModels;
 
 namespace agilesheel.Controllers
 {
@@ -49,40 +50,45 @@ namespace agilesheel.Controllers
                 return NotFound();
             }
 
-            var ticket = await _context.Tickets
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (ticket == null)
+            TicketsViewModel ticketViewModel = new TicketsViewModel()
             {
-                return NotFound();
-            }
+                Ticket = await _context.Tickets
+               .FirstOrDefaultAsync(m => m.Id == id),
+            };
 
-            var show = await _repo.Shows
-                .FirstOrDefaultAsync(m => m.Id == ticket.ShowId);
-            if (show == null)
-            {
-                return NotFound();
-            }
+            ticketViewModel.Show = await _repo.Shows
+                .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Ticket.ShowId);
+            ticketViewModel.Movie = await _repo.Movies
+                .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Show.MovieId);
 
-            var movie = await _repo.Movies
-                .FirstOrDefaultAsync(m => m.Id == show.MovieId);
-            if (movie == null)
-            {
-                return NotFound();
-            }
+            //var movie = await _repo.Movies
+            //    .FirstOrDefaultAsync(m => m.Id == show.MovieId);
+            //if (movie == null)
+            //{
+            //    return NotFound();
+            //}
 
 
-            ViewBag.Show = show.StartTime;
-            ViewBag.Movie = movie.Title;
+            //ViewBag.Show = show.StartTime;
+            //ViewBag.Movie = movie.Title;
 
             // ViewBags need to change to viewmodel
 
-            return View(ticket);
+            return View(ticketViewModel);
         }
 
         // GET: Tickets/Create
         public IActionResult Create()
         {
-            return View();
+            TicketsViewModel ticketViewModel = new TicketsViewModel(_repo);
+
+            ticketViewModel.Shows =  _repo.Shows.ToList();
+
+            //int currentShow = 1;
+
+            //ticketViewModel.Tickets = _repo.Tickets.Select(m => m.ShowId == currentShow).ToList();
+
+            return View(ticketViewModel);
         }
 
         // POST: Tickets/Create
@@ -90,19 +96,8 @@ namespace agilesheel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Code,Price,SeatNumber")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber")] Ticket ticket)
         {
-            var shows = await _repo.Shows.ToListAsync();
-            if (shows == null)
-            {
-                return NotFound();
-            }
-
-            var movies = await _repo.Movies.ToListAsync();
-            if (movies == null)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -110,9 +105,6 @@ namespace agilesheel.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.Shows = shows;
-            ViewBag.Movies = movies;
 
             return View(ticket);
         }
