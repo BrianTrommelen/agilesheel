@@ -12,12 +12,13 @@ namespace agilesheel.Controllers
     public class TicketsController : Controller
     {
         private readonly StoreDbContext _context;
-        private double NormalPrice = 0;
+        private double NormalPrice = 9.00;
         private double TotalPrice = 0;
         private int AmountNormalPrice;
         private int AmountChildrenPrice;
         private int AmountStudentsPrice;
         private int Amount65Price;
+        private int TotalAmount = 0;
 
         public TicketsController(StoreDbContext context)
         {
@@ -25,6 +26,7 @@ namespace agilesheel.Controllers
         }
 
         // GET: Tickets/Price/{movie_id}
+        [HttpGet]
         public async Task<IActionResult> Price(int? id)
         {
             if (id == null)
@@ -42,10 +44,6 @@ namespace agilesheel.Controllers
             if (movie.Length <= 120)
             {
                 NormalPrice = 8.50;
-            }
-            else
-            {
-                NormalPrice = 9.00;
             }
 
             ViewData["Price"] = NormalPrice;
@@ -75,7 +73,6 @@ namespace agilesheel.Controllers
             {
                 NormalPrice = 8.50;
             }
-            NormalPrice = 9.00;
 
             ViewData["Price"] = NormalPrice;
 
@@ -84,39 +81,62 @@ namespace agilesheel.Controllers
             int.TryParse(HttpContext.Request.Form["AmountStudentsPrice"], out AmountStudentsPrice);
             int.TryParse(HttpContext.Request.Form["Amount65Price"], out Amount65Price);
 
-            for (int i = 0; i < AmountNormalPrice; i++)
+            // TODO : Voor kinderen tot 11 jaar.
+            // TODO : Alleen Nederlands gesproken films. Op Genre?
+            if (this.CheckTime())
             {
-                TotalPrice = NormalPrice * i;
+                TotalPrice = TotalPrice + ((NormalPrice - 1.50) * AmountChildrenPrice);
+            }
+            else
+            {
+                TotalPrice = TotalPrice + (NormalPrice * AmountChildrenPrice);
             }
 
-            // Check bouwen
-            // Voor kinderen tot 11 jaar.
-            // Voorstelling tot 18:00,
-            // Alleen Nederlands gesproken films
-            for (int i = 0; i < AmountChildrenPrice; i++)
+            // TODO : Op vertoon van een studentenkaart
+            if (this.CheckDay())
             {
-                TotalPrice = (NormalPrice - 1.50) * i;
+                TotalPrice = TotalPrice + ((NormalPrice - 1.50) * AmountStudentsPrice);
+            }
+            else
+            {
+                TotalPrice = TotalPrice + (NormalPrice * AmountStudentsPrice);
             }
 
-            // Check bouwen
-            // Op vertoon van een studentenkaart
-            // Alleen geldig op maandag t/m donderdag
-            for (int i = 0; i < AmountStudentsPrice; i++)
-            {
-                TotalPrice = (NormalPrice - 1.50) * i;
-            }
-            
-            // Check
-            // Op vertoon van een 65+ plus
-            // Niet geldig op vakantiedagen en / of feestdagen
-            for (int i = 0; i < Amount65Price; i++)
-            {
-                TotalPrice = (NormalPrice - 1.50) * i;
-            }
+            // TODO : Op vertoon van een 65+ plus kaart
+            // TODO : Niet geldig op vakantiedagen en / of feestdagen
+            TotalPrice = TotalPrice + ((NormalPrice - 1.50) * Amount65Price);
+
+            TotalPrice = TotalPrice + (NormalPrice * AmountNormalPrice);
+
             ViewData["TotalPrice"] = TotalPrice;
-
-
             return View(movie);
+        }
+
+        private bool CheckDay()
+        {
+            var today = DateTime.Today;
+            if (DayOfWeek.Friday == today.DayOfWeek
+                && DayOfWeek.Saturday == today.DayOfWeek
+                && DayOfWeek.Sunday == today.DayOfWeek)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool CheckTime()
+        {
+            var start = new TimeSpan(06, 0, 0);
+            var end = new TimeSpan(18, 0, 0);
+            var now = DateTime.Now.TimeOfDay;
+
+            if (start >= now && end <= now)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
