@@ -21,7 +21,7 @@ namespace agilesheel.ViewModels
 
         private IStoreRepository _repo;
 
-        public int TotalSeats { get; set; }
+        public List<int> Seat { get; set; }
         public Ticket Ticket { get; set; }
         public Show Show { get; set; }
         public Movie Movie { get; set; }
@@ -31,70 +31,80 @@ namespace agilesheel.ViewModels
         public List<Ticket> Tickets { get; set; }
 
         public Show CurrentShow { get; set; }
-        public List<Ticket> CurrentShowTickets { get; set; }
-        public List<SeatRow> CurrentShowSeatRows { get; set; }
-        public List<SeatRow> SeatRows { get; set; }
 
         //Methods that require IStoreRepository
-        public Movie getMovieFromShowId(int showId)
+        public Movie GetMovieFromShowId(int showId)
         {
-            return _repo.Movies
+            Show = _repo.Shows
                 .FirstOrDefault(m => m.Id == showId);
-        }
-        public Movie getCurrentRowSeats(int rowId)
-        {
             return _repo.Movies
-                .FirstOrDefault(m => m.Id == showId);
+                .FirstOrDefault(m => m.Id == Show.MovieId);
         }
+        //public Movie getCurrentRowSeats(int rowId)
+        //{
+        //    return _repo.Movies
+        //        .FirstOrDefault(m => m.Id == rowId);
+        //}
 
-        public int getSeatNumber(int showId)
+        public List<int> GetSeatNumber(int showId)
         {
-            // get tickets for show
-            Tickets = _repo.Tickets.ToList();
-
-            foreach(Ticket ticket in Tickets)
-            {
-                if (ticket.ShowId == showId)
-                {
-                    CurrentShowTickets.Add(ticket);
-                }
-            }
-
-            // how many rows and seats are available?
+            // get existing tickets for show
+            Tickets = _repo.Tickets.Where(x => x.ShowId == showId).ToList();
 
             CurrentShow = _repo.Shows.FirstOrDefault(m => m.Id == showId);
 
-            // Get current theater where show plays
+            //// Get current theater where show plays
             Theater = _repo.Theaters.FirstOrDefault(m => m.Id == CurrentShow.TheaterId);
 
-            SeatRows = _repo.SeatRows.ToList();
+            int currentRows = _repo.SeatRows.Where(x => x.TheaterId == Theater.Id).Count();
+            int counterForRows = 0;
 
-            // get current seatrow from ticket to check if full?
-            SeatRow = _repo.SeatRows.FirstOrDefault(m => m.Id == CurrentShow.TheaterId);
+            int totalSeats = 0;
 
-            foreach (SeatRow seatRow in SeatRows)
+            List<int> seatVars; 
+
+            // Count total seats in theater
+            while ( currentRows > counterForRows)
             {
-                if (seatRow.TheaterId == CurrentShow.TheaterId)
+                counterForRows++;
+
+                // Get total seats of theater
+                totalSeats += _repo.SeatRows.Where(x => x.Id == counterForRows).Select(x => x.Seats).FirstOrDefault();
+
+                // Get seats per row
+                int seatsForRow = _repo.SeatRows.Where(x => x.Id == counterForRows).Select(x => x.Seats).FirstOrDefault();
+
+                List<Ticket> ticketsInRow = _repo.Tickets.Where(x => x.SeatRowId == counterForRows).Where(x => x.ShowId == showId).ToList();
+                
+                // If tickets exist for this row
+                if (ticketsInRow != null)
                 {
-                    CurrentShowSeatRows.Add(seatRow);
+                    int totalTicketsInThisRow = ticketsInRow.Count;
 
-                    //int i = seatRow.Seats;
+                    // Make sure there are tickets left for this row to assign seatnumber
+                    if(totalTicketsInThisRow != seatsForRow)
+                    {
+                        // Assign seatnumber
+                        int seatNumber = ticketsInRow.Count + 1;
+                        seatVars = new List<int>
+                        {
+                            counterForRows,
+                            seatNumber
+                        };
 
-                    //while (i > 0) {
-                       
-                    //}
+                        return seatVars;
+                    } else
+                    {
+                        continue;
+                    }
+                } else
+                {
+                    continue;
                 }
             }
 
-            foreach(SeatRow seatRow in CurrentShowSeatRows)
-            {
-                TotalSeats += seatRow.Seats;
-            }
-
-            // send free seatnumber back
-
-
-            return 8;
+            // if no seatnumbers available return null
+            return null;
         }
 
     }

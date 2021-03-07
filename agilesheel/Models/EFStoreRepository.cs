@@ -15,6 +15,7 @@ namespace agilesheel.Models
         }
 
         public IQueryable<Movie> Movies => context.Movies;
+        public IQueryable<Theater> Theaters => context.Theaters;
         public IQueryable<Show> Shows => context.Shows;
         public IQueryable<Ticket> Tickets => context.Tickets;
         public IQueryable<SeatRow> SeatRows => context.SeatRows;

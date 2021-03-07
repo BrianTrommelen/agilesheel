@@ -80,11 +80,15 @@ namespace agilesheel.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
+            // TODO: get showId from URL
+            int currentShow = 1;
+
             TicketsViewModel ticketViewModel = new TicketsViewModel(_repo);
 
             ticketViewModel.Shows =  _repo.Shows.ToList();
 
-            //int currentShow = 1;
+            ticketViewModel.Seat = ticketViewModel.GetSeatNumber(currentShow);
+
 
             //ticketViewModel.Tickets = _repo.Tickets.Select(m => m.ShowId == currentShow).ToList();
 

@@ -13,16 +13,15 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @foreach (Ticket ticket in Model.Tickets)
-            {
-                <h1>Hoi</h1>
-            }
+            
+
+            <h1>Seatnumber: @Model.Seat[1] SeatRow: @Model.Seat[0]</h1>
             <div class="form-group">
                 <select asp-for="Ticket.ShowId" class="form-select" aria-label="Default select example">
                     <option selected>Select show</option>
                     @foreach (Show show in Model.Shows)
                     {
-                        <option value="@show.Id">Film @Model.getMovieFromShowId(show.Id).Title</option>
+                        <option value="@show.Id">Film @Model.GetMovieFromShowId(show.Id).Title</option>
                     }
 
                 </select>
