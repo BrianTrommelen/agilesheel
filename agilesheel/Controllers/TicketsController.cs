@@ -78,14 +78,23 @@ namespace agilesheel.Controllers
         }
 
         // GET: Tickets/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            // TODO: get showId from URL
-            int currentShow = 1;
+            int currentShow;
+            if (id != null)
+            {
+                currentShow = (int)id;
+            } else
+            {
+                return NotFound();
+            }
+
 
             TicketsViewModel ticketViewModel = new TicketsViewModel(_repo);
 
             ticketViewModel.Shows =  _repo.Shows.ToList();
+            ticketViewModel.Show =  _repo.Shows.FirstOrDefault(x => x.Id == id);
+            ticketViewModel.Movie =  _repo.Movies.FirstOrDefault(x => x.Id == ticketViewModel.Show.MovieId);
 
             ticketViewModel.Seat = ticketViewModel.GetSeatNumber(currentShow);
 
@@ -107,10 +116,10 @@ namespace agilesheel.Controllers
             {
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
 
-            return View(ticket);
+            return View(RedirectToAction(nameof(Create)));
         }
 
         // GET: Tickets/Edit/5

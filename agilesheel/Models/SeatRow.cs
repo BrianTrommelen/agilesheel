@@ -13,6 +13,7 @@ namespace agilesheel.Models
         public int Id { get; set; }
 
         public int Seats { get; set; }
+        public int RowNumber { get; set; }
 
         [ForeignKey("Theater")]
         public int TheaterId { get; set; }
