@@ -1,4 +1,5 @@
-﻿@model agilesheel.Models.Movie
+﻿@using agilesheel.Models
+@model agilesheel.ViewModels.MovieViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,56 +11,99 @@
     <h4>Movie</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Title)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Title)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Length)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Length)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Length)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Length)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Synopsis)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Synopsis)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Synopsis)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Synopsis)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Year)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Year)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Genre)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Genre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ParentalRating)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.ParentalRating)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ParentalRating)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.ParentalRating)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Is3D)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Is3D)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Is3D)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Is3D)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Movie.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
-    <a class="btn btn-success" asp-controller="Tickets" asp-action="Price" asp-route-id="@Model.Id">Order</a>
 </div>
 
 <div>
-    load shows...
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movie.Title)
+                </th>
+                <th>
+                    Theater
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Show.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Show.Duration)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Shows)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Theater.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Model.Movie.Length Minuten
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-success" asp-controller="Tickets"
+                           asp-action="Create" asp-route-id="@item.Id">Order</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
