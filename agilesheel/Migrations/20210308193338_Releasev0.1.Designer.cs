@@ -10,8 +10,8 @@ using agilesheel.Models;
 namespace agilesheel.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20210306140842_testTicket1")]
-    partial class testTicket1
+    [Migration("20210308193338_Releasev0.1")]
+    partial class Releasev01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,10 +82,13 @@ namespace agilesheel.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("RowNumber")
+                        .HasColumnType("int");
+
                     b.Property<int>("Seats")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TheaterId")
+                    b.Property<int>("TheaterId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -165,10 +168,10 @@ namespace agilesheel.Migrations
                     b.Property<int>("SeatNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SeatRowId")
+                    b.Property<int>("SeatRowId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShowId")
+                    b.Property<int?>("ShowId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -184,7 +187,9 @@ namespace agilesheel.Migrations
                 {
                     b.HasOne("agilesheel.Models.Theater", "Theater")
                         .WithMany("SeatRows")
-                        .HasForeignKey("TheaterId");
+                        .HasForeignKey("TheaterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Theater");
                 });
@@ -221,13 +226,13 @@ namespace agilesheel.Migrations
                 {
                     b.HasOne("agilesheel.Models.SeatRow", "SeatRow")
                         .WithMany("Tickets")
-                        .HasForeignKey("SeatRowId");
+                        .HasForeignKey("SeatRowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("agilesheel.Models.Show", "Show")
                         .WithMany("Tickets")
-                        .HasForeignKey("ShowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShowId");
 
                     b.Navigation("SeatRow");
 

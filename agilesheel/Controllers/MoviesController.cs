@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
+using agilesheel.ViewModels;
 
 namespace agilesheel.Controllers
 {
@@ -32,14 +33,19 @@ namespace agilesheel.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
+            MovieViewModel movieViewModel = new MovieViewModel()
             {
-                return NotFound();
-            }
+                Movie = await _context.Movies
+                .FirstOrDefaultAsync(m => m.Id == id),
+                Shows = await _context.Shows
+                    .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < DateTime.Now.AddHours(5)) && s.Movie.Id == id))
+                    .Include(s => s.Theater)
+                    .OrderBy(s => s.StartTime)
+                    .ToListAsync()
+        };
 
-            return View(movie);
+
+            return View(movieViewModel);
         }
 
         // GET: Movies/Create

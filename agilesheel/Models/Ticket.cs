@@ -9,7 +9,7 @@ namespace agilesheel.Models
         public int Id { get; set; }
 
         [ForeignKey("Show")]
-        public int ShowId { get; set; }
+        public int? ShowId { get; set; }
 
         public Show Show { get; set; }
 
