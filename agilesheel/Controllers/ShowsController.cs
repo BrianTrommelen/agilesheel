@@ -1,6 +1,7 @@
 ﻿using agilesheel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,25 @@ namespace agilesheel.Controllers
             _context = context;
         }
 
-        //private ReturnShowsByMovieId(int? id)
-        //{
+        public async Task<IActionResult> GetUpcomingShows()
+        {
+            var shows = await _context.Shows
+                .Include(s => s.Movie)
+                .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < DateTime.Now.AddHours(15))))
+                .OrderBy(s => s.StartTime)
+               .ToListAsync();
 
-        //    return Show;
-        //}
+            return View(shows);
+        }
 
+        public async Task<IActionResult> GetShowsByMovie(int movieid)
+        {
+            var shows = await _context.Shows
+                .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < DateTime.Now.AddHours(5)) && s.Movie.Id == movieid))
+                .OrderBy(s => s.StartTime)
+                .ToListAsync();
+
+            return View(shows);
+        }
     }
 }
