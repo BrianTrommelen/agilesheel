@@ -8,6 +8,17 @@ namespace agilesheel.Models.Seeds
 {
     public static class MovieSeed
     {
+        //Function to get random number
+        private static readonly Random getrandom = new Random();
+
+        public static int GetRandomNumber(int min, int max)
+        {
+            lock (getrandom) // synchronize
+            {
+                return getrandom.Next(min, max);
+            }
+        }
+
         public static void EnsurePopulated(IApplicationBuilder app)
         {
             StoreDbContext context = app.ApplicationServices
@@ -32,22 +43,22 @@ namespace agilesheel.Models.Seeds
 
             for (int i = 0; i < 6; i++)
             {
-                if (!context.Theaters.Any(t => t.Name == $"Zaal { i + 1 }"))
+                if (!context.Theaters.Any(t => t.Name == $"Theater { i + 1 }"))
                 {
                     context.Theaters.Add(
                         new Theater
                         {
-                            Name = $"Zaal { i + 1 }",
+                            Name = $"Theater { i + 1 }",
                             Cinema = context.Cinemas.First(),
-                            Has3D = new[] { "Zaal 1", "Zaal 2" }.Contains($"Zaal { i + 1 }") // Zaal 1 en 2 zijn 3d
+                            Has3D = new[] { "Theater 1", "Theater 2" }.Contains($"Theater { i + 1 }") // Theater 1 en 2 zijn 3d
                         });
 
                     context.SaveChanges();
                 }
             }
 
-            // Zaal 1 - 3 (8*15)
-            foreach (var t in context.Theaters.Where(t => new[] { "Zaal 1", "Zaal 2", "Zaal 3" }.Contains(t.Name)))
+            // Theater 1 - 3 (8*15)
+            foreach (var t in context.Theaters.Where(t => new[] { "Theater 1", "Theater 2", "Theater 3" }.Contains(t.Name)))
             {
                 if (!context.SeatRows.Any(s => s.Theater.Name == t.Name))
                 {
@@ -65,8 +76,8 @@ namespace agilesheel.Models.Seeds
 
             context.SaveChanges();
 
-            // Zaal 4 (6*10)
-            if (!context.SeatRows.Any(s => s.Theater.Name == "Zaal 4"))
+            // Theater 4 (6*10)
+            if (!context.SeatRows.Any(s => s.Theater.Name == "Theater 4"))
             {
                 for (int i = 0; i < 6; i++)
                 {
@@ -74,15 +85,15 @@ namespace agilesheel.Models.Seeds
                         new SeatRow
                         {
                             Seats = 10,
-                            Theater = context.Theaters.First(t => t.Name == "Zaal 4")
+                            Theater = context.Theaters.First(t => t.Name == "Theater 4")
                         });
 
                 }
                 context.SaveChanges();
             }
 
-            // Zaal 5 - 6 (2*10+2*15)
-            foreach (var t in context.Theaters.Where(t => new[] { "Zaal 5", "Zaal 6" }.Contains(t.Name)))
+            // Theater 5 - 6 (2*10+2*15)
+            foreach (var t in context.Theaters.Where(t => new[] { "Theater 5", "Theater 6" }.Contains(t.Name)))
             {
                 if (!context.SeatRows.Any(s => s.Theater.Name == t.Name))
                 {
@@ -132,6 +143,17 @@ namespace agilesheel.Models.Seeds
                         ParentalRating = "9",
                         PosterUrl = "https://m.media-amazon.com/images/M/MV5BMjEzOTE3ODM3OF5BMl5BanBnXkFtZTcwMzYyODI4Mg@@._V1_UX182_CR0,0,182,268_AL_.jpg",
                         Is3D = false
+                    },
+                    new Movie
+                    {
+                        Title = "WALL-E",
+                        Length = 98,
+                        Synopsis = "In the distant future, a small waste-collecting robot inadvertently embarks on a space journey that will ultimately decide the fate of mankind.",
+                        Year = 2008,
+                        Genre = "Adventure",
+                        ParentalRating = "AL",
+                        PosterUrl = "https://m.media-amazon.com/images/M/MV5BMjExMTg5OTU0NF5BMl5BanBnXkFtZTcwMjMxMzMzMw@@._V1_UX182_CR0,0,182,268_AL_.jpg",
+                        Is3D = false
                     }
                 );
                 context.SaveChanges();
@@ -141,28 +163,30 @@ namespace agilesheel.Models.Seeds
             {
                 foreach (var t in context.Theaters)
                 {
+                    int rando = GetRandomNumber(1, context.Movies.Count() + 1);
                     var moviestart = DateTime.Now.Date;
 
                     var show1 = moviestart.AddHours(18);
                     var show2 = show1.AddHours(3);
                     var show3 = show2.AddHours(3);
+                    
 
                     context.Shows.AddRange(
                         new Show
                         {
-                            Movie = context.Movies.First(),
+                            Movie = context.Movies.FirstOrDefault(x => x.Id == rando),
                             StartTime = show1,
                             Theater = t
                         },
                         new Show
                         {
-                            Movie = context.Movies.First(),
+                            Movie = context.Movies.FirstOrDefault(x => x.Id == rando),
                             StartTime = show2,
                             Theater = t
                         },
                         new Show
                         {
-                            Movie = context.Movies.First(),
+                            Movie = context.Movies.FirstOrDefault(x => x.Id == rando),
                             StartTime = show3,
                             Theater = t
                         });

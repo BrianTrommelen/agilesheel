@@ -65,16 +65,16 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Movie.Title)
+                    Movie
                 </th>
                 <th>
                     Theater
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Show.StartTime)
+                    Starts at
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Show.Duration)
+                    Show Duration
                 </th>
                 <th></th>
             </tr>
@@ -93,12 +93,12 @@
                         @Html.DisplayFor(modelItem => item.StartTime)
                     </td>
                     <td>
-                        @Model.Movie.Length Minuten
+                        @Model.Movie.Length Minutes
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                         <a class="btn btn-success" asp-controller="Tickets"
                            asp-action="Create" asp-route-id="@item.Id">Order</a>
                     </td>

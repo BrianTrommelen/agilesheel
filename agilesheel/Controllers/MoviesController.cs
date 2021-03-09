@@ -22,7 +22,19 @@ namespace agilesheel.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movies.ToListAsync());
+            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day +1 , 0, 0, 0);
+            MovieViewModel movieViewModel = new MovieViewModel()
+            {
+                Movies = await _context.Movies.ToListAsync(),
+                Shows = await _context.Shows
+                .Include(s => s.Movie)
+                .Include(s => s.Theater)
+                .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < end)))
+                .OrderBy(s => s.StartTime)
+               .ToListAsync()
+            };
+
+            return View(movieViewModel);
         }
 
         // GET: Movies/Details/5
