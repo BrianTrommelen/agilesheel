@@ -13,6 +13,7 @@ namespace agilesheel.Controllers
     public class TicketsController : Controller
     {
         private readonly StoreDbContext _context;
+        private double NormalPrice = 9.00;
 
         private IStoreRepository _repo;
 
@@ -23,22 +24,8 @@ namespace agilesheel.Controllers
         }
 
         // GET: Tickets
-        //public IActionResult Index() => View(_repo.Tickets);
         public async Task<IActionResult> Index()
         {
-            //if(id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var isShow = await _context.Shows
-            //    .Include(s => s.Tickets).ThenInclude(s => s.SeatRow)
-            //     .Where(s => s.ShowId == id)
-            // .FirstOrDefaultAsync();
-
-            //var currentShow = _repo.Tickets.Where(p => p.Id == id);
-
-
             return View(await _context.Tickets.ToListAsync());
         }
 
@@ -49,6 +36,8 @@ namespace agilesheel.Controllers
             {
                 return NotFound();
             }
+            var movie = await _context.Movies
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             TicketsViewModel ticketViewModel = new TicketsViewModel()
             {
@@ -61,19 +50,7 @@ namespace agilesheel.Controllers
             ticketViewModel.Movie = await _repo.Movies
                 .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Show.MovieId);
 
-            //var movie = await _repo.Movies
-            //    .FirstOrDefaultAsync(m => m.Id == show.MovieId);
-            //if (movie == null)
-            //{
-            //    return NotFound();
-            //}
-
-
-            //ViewBag.Show = show.StartTime;
-            //ViewBag.Movie = movie.Title;
-
             // ViewBags need to change to viewmodel
-
             return View(ticketViewModel);
         }
 
@@ -84,22 +61,45 @@ namespace agilesheel.Controllers
             if (id != null)
             {
                 currentShow = (int)id;
-            } else
+            }
+            else
             {
                 return NotFound();
             }
 
-
             TicketsViewModel ticketViewModel = new TicketsViewModel(_repo);
 
-            ticketViewModel.Shows =  _repo.Shows.ToList();
-            ticketViewModel.Show =  _repo.Shows.FirstOrDefault(x => x.Id == id);
-            ticketViewModel.Movie =  _repo.Movies.FirstOrDefault(x => x.Id == ticketViewModel.Show.MovieId);
+            ticketViewModel.Shows = _repo.Shows.ToList();
+            ticketViewModel.Show = _repo.Shows.FirstOrDefault(x => x.Id == id);
+            ticketViewModel.Movie = _repo.Movies.FirstOrDefault(x => x.Id == ticketViewModel.Show.MovieId);
 
             ticketViewModel.Seat = ticketViewModel.GetSeatNumber(currentShow);
 
+            if (ticketViewModel.Movie.Length <= 120)
+            {
+                NormalPrice = 8.50;
+            }
 
-            //ticketViewModel.Tickets = _repo.Tickets.Select(m => m.ShowId == currentShow).ToList();
+            ViewBag.NormalPrice = String.Format("{0:0.00}", NormalPrice);
+
+            if (ticketViewModel.IsShowInTimeSpan(TimeSpan.FromHours(6), TimeSpan.FromHours(18)))
+            {
+                ViewBag.ChildrenPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
+            }
+            else
+            {
+                ViewBag.ChildrenPrice = ViewBag.NormalPrice;
+            }
+
+            if (ticketViewModel.IsShowInWeekDay(DateTime.Now))
+            {
+                ViewBag.StudentPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
+            } else
+            {
+                ViewBag.StudentPrice = ViewBag.NormalPrice;
+            }
+
+            ViewBag.ElderyPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
 
             return View(ticketViewModel);
         }
