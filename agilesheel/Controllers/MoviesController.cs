@@ -45,12 +45,14 @@ namespace agilesheel.Controllers
                 return NotFound();
             }
 
+            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 0, 0, 0);
+
             MovieViewModel movieViewModel = new MovieViewModel()
             {
                 Movie = await _context.Movies
                 .FirstOrDefaultAsync(m => m.Id == id),
                 Shows = await _context.Shows
-                    .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < DateTime.Now.AddHours(5)) && s.Movie.Id == id))
+                    .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < end) && s.Movie.Id == id))
                     .Include(s => s.Theater)
                     .OrderBy(s => s.StartTime)
                     .ToListAsync()

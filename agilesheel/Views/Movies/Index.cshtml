@@ -5,76 +5,77 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
-<div class="container">
-    <div class="row">
-        @foreach (var item in Model.Movies)
-        {
-            <div class="col-3">
-                <a class="movie-item" asp-action="Details" asp-route-id="@item.Id">
-                    <img src="@Html.DisplayFor(modelItem => item.PosterUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" height="300" />
-                    <h1 class="h6">@Html.DisplayFor(modelItem => item.Title)</h1>
-                    <span>@Html.DisplayFor(modelItem => item.Genre)</span>
-                    <span>Pegi: @Html.DisplayFor(modelItem => item.ParentalRating)</span>
+<h1>Current Movies</h1>
+<div class="row">
+    @foreach (var item in Model.Movies)
+    {
+        <div class="col-1">
+            <a class="movie-item" asp-action="Details" asp-route-id="@item.Id">
+                <img src="@Html.DisplayFor(modelItem => item.PosterUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" height="300" />
+                <h1 class="h6">@Html.DisplayFor(modelItem => item.Title)</h1>
+                <span>@Html.DisplayFor(modelItem => item.Genre)</span>
+                <span>Pegi: @Html.DisplayFor(modelItem => item.ParentalRating)</span>
 
-                    @if (item.Is3D)
-                    {
-                        <span>3D</span>
-                    }
-                </a>
-            </div>
-        }
-    </div>
-    <div class="row">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Movie
-                    </th>
-                    <th>
-                        Theater
-                    </th>
-                    <th>
-                        Starts at
-                    </th>
-                    <th>
-                        Show Duration
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Shows)
+                @if (item.Is3D)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Movie.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Theater.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StartTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Movie.Length) Minutes
-                        </td>
-                        <td>
-                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                            <a class="btn btn-success" asp-controller="Tickets"
-                               asp-action="Create" asp-route-id="@item.Id">Order</a>
-                        </td>
-                    </tr>
+                    <span>3D</span>
                 }
-            </tbody>
-        </table>
-    </div>
+            </a>
+        </div>
+    }
 </div>
+
+<h1 class="my-4">Today's schedule</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Movie
+            </th>
+            <th>
+                Theater
+            </th>
+            <th>
+                Starts at
+            </th>
+            <th>
+                Show Duration
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Shows)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Theater.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Length) Minutes
+                </td>
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                    <a class="btn btn-success" asp-controller="Tickets"
+                       asp-action="Create" asp-route-id="@item.Id">Order</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

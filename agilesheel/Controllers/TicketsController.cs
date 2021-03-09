@@ -46,9 +46,12 @@ namespace agilesheel.Controllers
             };
 
             ticketViewModel.Show = await _repo.Shows
+                .Include(s => s.Theater)
                 .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Ticket.ShowId);
             ticketViewModel.Movie = await _repo.Movies
                 .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Show.MovieId);
+
+            ViewBag.Price = String.Format("{0:0.00}", (ticketViewModel.Ticket.Price));
 
             // ViewBags need to change to viewmodel
             return View(ticketViewModel);
@@ -116,10 +119,10 @@ namespace agilesheel.Controllers
             {
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Create));
+                return RedirectToAction("Details", new { id = ticket.Id });
             }
 
-            return View(RedirectToAction(nameof(Create)));
+            return View(ticket);
         }
 
         // GET: Tickets/Edit/5
