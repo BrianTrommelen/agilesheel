@@ -61,10 +61,10 @@ namespace agilesheel.ViewModels
 
             int totalSeats = 0;
 
-            List<int> seatVars; 
+            List<int> seatVars;
 
             // Count total seats in theater
-            while ( currentRows > counterForRows)
+            while (currentRows > counterForRows)
             {
                 counterForRows++;
 
@@ -75,14 +75,14 @@ namespace agilesheel.ViewModels
                 int seatsForRow = _repo.SeatRows.Where(x => x.Id == counterForRows).Select(x => x.Seats).FirstOrDefault();
 
                 List<Ticket> ticketsInRow = _repo.Tickets.Where(x => x.SeatRowId == counterForRows).Where(x => x.ShowId == showId).ToList();
-                
+
                 // If tickets exist for this row
                 if (ticketsInRow != null)
                 {
                     int totalTicketsInThisRow = ticketsInRow.Count;
 
                     // Make sure there are tickets left for this row to assign seatnumber
-                    if(totalTicketsInThisRow != seatsForRow)
+                    if (totalTicketsInThisRow != seatsForRow)
                     {
                         // Assign seatnumber
                         int seatNumber = ticketsInRow.Count + 1;
@@ -93,11 +93,13 @@ namespace agilesheel.ViewModels
                         };
 
                         return seatVars;
-                    } else
+                    }
+                    else
                     {
                         continue;
                     }
-                } else
+                }
+                else
                 {
                     continue;
                 }
@@ -105,6 +107,31 @@ namespace agilesheel.ViewModels
 
             // if no seatnumbers available return null
             return null;
+        }
+
+
+        public bool IsShowInWeekDay(DateTime date)
+        {
+            DayOfWeek dayOfWeek = date.DayOfWeek;
+
+            if (dayOfWeek == DayOfWeek.Friday || dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool IsShowInTimeSpan(TimeSpan start, TimeSpan end)
+        {
+            var now = DateTime.Now.TimeOfDay;
+
+            if (start <= now && now <= end)
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }
