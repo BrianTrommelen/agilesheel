@@ -9,7 +9,7 @@ using agilesheel.Models;
 
 namespace agilesheel.Migrations
 {
-    [DbContext(typeof(AgilesheelContext))]
+    [DbContext(typeof(StoreDBContext))]
     [Migration("20210308193338_Releasev0.1")]
     partial class Releasev01
     {

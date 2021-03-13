@@ -2,9 +2,9 @@
 
 namespace agilesheel.Models
 {
-    public class AgilesheelContext : DbContext
+    public class StoreDBContext : DbContext
     {
-        public AgilesheelContext(DbContextOptions<AgilesheelContext> options)
+        public StoreDBContext(DbContextOptions<StoreDBContext> options)
             : base(options) { }
 
         public DbSet<Cinema> Cinemas { get; set; }

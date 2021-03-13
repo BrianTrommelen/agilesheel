@@ -21,8 +21,8 @@ namespace agilesheel.Models.Seeds
 
         public static void EnsurePopulated(IApplicationBuilder app)
         {
-            AgilesheelContext context = app.ApplicationServices
-                .CreateScope().ServiceProvider.GetRequiredService<AgilesheelContext>();
+            StoreDBContext context = app.ApplicationServices
+                .CreateScope().ServiceProvider.GetRequiredService<StoreDBContext>();
 
             if (context.Database.GetPendingMigrations().Any())
             {

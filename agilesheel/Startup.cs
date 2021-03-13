@@ -28,7 +28,7 @@ namespace agilesheel
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<AgilesheelContext>(options => {
+            services.AddDbContext<StoreDBContext>(options => {
                 options.UseSqlServer(
                     Configuration["ConnectionStrings:agilesheelConnection"]);
             });

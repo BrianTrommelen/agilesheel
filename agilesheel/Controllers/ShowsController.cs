@@ -11,9 +11,9 @@ namespace agilesheel.Controllers
 {
     public class ShowsController : Controller
     {
-        private readonly AgilesheelContext _context;
+        private readonly StoreDBContext _context;
 
-        public ShowsController(AgilesheelContext context)
+        public ShowsController(StoreDBContext context)
         {
             _context = context;
         }

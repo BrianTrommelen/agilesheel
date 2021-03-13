@@ -12,12 +12,12 @@ namespace agilesheel.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly AgilesheelContext _context;
+        private readonly StoreDBContext _context;
         private double NormalPrice = 9.00;
 
         private IStoreRepository _repo;
 
-        public TicketsController(AgilesheelContext context, IStoreRepository repo)
+        public TicketsController(StoreDBContext context, IStoreRepository repo)
         {
             _context = context;
             _repo = repo;

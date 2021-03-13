@@ -8,7 +8,7 @@ using agilesheel.Models;
 
 namespace agilesheel.Migrations
 {
-    [DbContext(typeof(AgilesheelContext))]
+    [DbContext(typeof(StoreDBContext))]
     partial class StoreDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
