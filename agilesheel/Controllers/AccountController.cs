@@ -43,7 +43,7 @@ namespace agilesheel.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("index", "Movies");
                 }
 
                 foreach (var error in result.Errors)
@@ -73,7 +73,7 @@ namespace agilesheel.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Movies");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
