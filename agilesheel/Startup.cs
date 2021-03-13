@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace agilesheel
 {
@@ -32,6 +33,7 @@ namespace agilesheel
                 options.UseSqlServer(
                     Configuration["ConnectionStrings:agilesheelConnection"]);
             });
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<StoreDbContext>();
             services.AddScoped<IStoreRepository, EFStoreRepository>();
         }
 
@@ -54,6 +56,7 @@ namespace agilesheel
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
