@@ -12,9 +12,9 @@ namespace agilesheel.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly StoreDbContext _context;
+        private readonly AgilesheelContext _context;
 
-        public MoviesController(StoreDbContext context)
+        public MoviesController(AgilesheelContext context)
         {
             _context = context;
         }

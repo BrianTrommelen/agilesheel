@@ -7,9 +7,9 @@ namespace agilesheel.Models
 {
     public class EFStoreRepository : IStoreRepository
     {
-        private StoreDbContext context;
+        private AgilesheelContext context;
 
-        public EFStoreRepository(StoreDbContext ctx)
+        public EFStoreRepository(AgilesheelContext ctx)
         {
             context = ctx;
         }

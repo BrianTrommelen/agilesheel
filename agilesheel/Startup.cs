@@ -28,11 +28,17 @@ namespace agilesheel
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<StoreDbContext>(options => {
+            services.AddDbContext<AgilesheelContext>(options => {
                 options.UseSqlServer(
                     Configuration["ConnectionStrings:agilesheelConnection"]);
             });
             services.AddScoped<IStoreRepository, EFStoreRepository>();
+
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AddAreaPageRoute("Identity", "/Account/Register", "/Register");
+                options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/Login");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +59,7 @@ namespace agilesheel
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -60,7 +67,10 @@ namespace agilesheel
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Movies}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
             });
+
             Models.Seeds.MovieSeed.EnsurePopulated(app);
         }
     }
