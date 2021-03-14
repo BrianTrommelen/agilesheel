@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-
+using agilesheel.Permission;
 
 namespace agilesheel
 {
@@ -30,6 +30,8 @@ namespace agilesheel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddDbContext<StoreDbContext>(options => {
                 options.UseSqlServer(
                     Configuration["ConnectionStrings:agilesheelConnection"]);
