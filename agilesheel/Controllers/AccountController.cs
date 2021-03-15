@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;

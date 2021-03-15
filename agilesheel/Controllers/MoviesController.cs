@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using agilesheel.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
@@ -37,6 +38,7 @@ namespace agilesheel.Controllers
             return View(movieViewModel);
         }
 
+        [Authorize(Roles = "Touchscreen")]
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -62,12 +64,14 @@ namespace agilesheel.Controllers
             return View(movieViewModel);
         }
 
+        [Authorize(Roles = "Touchscreen")]
         // GET: Movies/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Touchscreen")]
         // POST: Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -84,6 +88,7 @@ namespace agilesheel.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Touchscreen")]
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -100,6 +105,7 @@ namespace agilesheel.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Touchscreen")]
         // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -135,6 +141,7 @@ namespace agilesheel.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Touchscreen")]
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -153,6 +160,7 @@ namespace agilesheel.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Touchscreen")]
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
