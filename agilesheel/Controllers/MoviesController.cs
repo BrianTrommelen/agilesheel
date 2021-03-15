@@ -20,6 +20,7 @@ namespace agilesheel.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: Movies
         public async Task<IActionResult> Index()
         {
