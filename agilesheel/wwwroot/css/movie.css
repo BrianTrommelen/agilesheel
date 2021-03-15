@@ -1,6 +1,7 @@
 ﻿.movie-item {
     display: inline-block;
     width: 100%;
+    color: black;
 }
 
 .movie-item img {
