@@ -27,6 +27,7 @@ namespace agilesheel.Controllers
             var allPermissions = new List<RoleClaimsViewModel>();
 
             allPermissions.GetPermissions(typeof(Permissions.Tickets), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.Movies), roleId);
             
             var role = await _roleManager.FindByIdAsync(roleId);
             model.RoleId = roleId;

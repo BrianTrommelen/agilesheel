@@ -1,4 +1,6 @@
-﻿using agilesheel.Models;
+﻿using agilesheel.Constants;
+using agilesheel.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Controllers
 {
+    [Authorize(Roles = "Touchscreen")]
     public class ShowsController : Controller
     {
         private readonly StoreDbContext _context;

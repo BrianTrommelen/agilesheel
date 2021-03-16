@@ -32,5 +32,13 @@ namespace agilesheel.Constants
             public const string Edit = "Permissions.Tickets.Edit";
             public const string Delete = "Permissions.Tickets.Delete";
         }
+
+        public static class Movies
+        {
+            public const string View = "Permissions.Movies.View";
+            public const string Create = "Permissions.Movies.Create";
+            public const string Edit = "Permissions.Movies.Edit";
+            public const string Delete = "Permissions.Movies.Delete";
+        }
     }
 }

@@ -90,5 +90,12 @@ namespace agilesheel.Controllers
             return RedirectToAction("Login");
         }
 
+        [HttpGet]
+        [Route("/Account/AccessDenied")]
+        public ActionResult AccessDenied()
+        {
+            return View("AccessDenied");
+        }
+
     }
 }
