@@ -5,13 +5,13 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Ticket: @Model.Ticket.Name</h1>
 
 <div class="touchscreen">
     <h4>Ticket</h4>
     <hr />
     <h1>@Model.Movie.Title</h1>
-    <h1>@Model.Show.StartTime</h1>
+    <h2>@Model.Show.StartTime</h2>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.Name)
