@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using agilesheel.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
