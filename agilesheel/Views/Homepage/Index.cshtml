@@ -1,0 +1,73 @@
+﻿@using agilesheel.Models
+@model agilesheel.ViewModels.MovieViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+<div class="container">
+    <div class="row justify-content-end">
+        <div class="col-2">
+            <a class="btn btn-light" href="#">Movies</a>
+        </div>
+        <div class="col-2">
+            <a class="btn btn-light" href="#">Cinemas</a>
+        </div>
+        <div class="col-2">
+            <a class="btn btn-light btn" href="#">Contact</a>
+        </div>
+    </div>
+</div>
+<section class="banner bg-dark">
+    <img class="img-fluid banner-image" src="/lib/images/bioscoop-digitaal.jpg" alt="Agilesheel Cinemas" />
+    <div class="covid-banner text-center py-4">
+        <p class="d-inline-block text-light mb-0">
+            Ons covid beleid.
+        </p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center my-5">
+                <h2>This week's movies</h2>
+            </div>
+        </div>
+
+        @foreach (var item in Model.Movies)
+        {
+            <div class="col-4 col-lg-3 col-xl-2">
+                <a class="movie-item" asp-action="Details" asp-route-id="@item.Id">
+                    <img src="@Html.DisplayFor(modelItem => item.PosterUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" height="300" />
+                    <h1 class="h6">@Html.DisplayFor(modelItem => item.Title)</h1>
+                    <span>@Html.DisplayFor(modelItem => item.Genre)</span>
+                    <span>Pegi: @Html.DisplayFor(modelItem => item.ParentalRating)</span>
+
+                    @if (item.Is3D)
+                    {
+                        <span>3D</span>
+                    }
+                </a>
+            </div>
+        }
+    </div>
+    <div class="row my-5">
+        <h2 class="my-4">Featured movies</h2>
+        <div class="col-12"></div>
+        <div class="media">
+            <img class="img-fluid mr-5" src="/lib/images/bioscoop-digitaal.jpg" width="400" height="400" alt="Alternate Text" />
+            <div class="media-body">
+                <h3>Movie title</h3>
+
+                <p>Text van uitgelichte film </p>
+
+                <a class="btn btn-lg btn-outline-dark" href="#">Read more</a>
+            </div>
+        </div>
+    </div>
+</div>
