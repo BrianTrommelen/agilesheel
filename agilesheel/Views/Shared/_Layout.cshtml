@@ -61,6 +61,21 @@
     </header>
 
     <main role="main" class="pb-3">
+        <div class="container">
+            <div class="row justify-content-end">
+                <ul>
+                    <li class="d-inline-block">
+                        <a class="nav-link text-dark" asp-controller="WebsiteMovies" asp-action="Index">Movies</a>
+                    </li>
+                    <li class="d-inline-block">
+                        <a class="nav-link text-dark" href="#">Cinemas</a>
+                    </li>
+                    <li class="d-inline-block">
+                        <a class="nav-link text-dark" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         @RenderBody()
     </main>
 

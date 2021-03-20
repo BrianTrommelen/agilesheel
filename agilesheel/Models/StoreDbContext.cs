@@ -20,6 +20,8 @@ namespace agilesheel.Models
 
         public DbSet<SeatRow> SeatRows { get; set; }
 
+        public DbSet<TextBar> TextBar { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

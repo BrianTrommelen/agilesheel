@@ -12,5 +12,7 @@ namespace agilesheel.Models
         IQueryable<Show> Shows { get; }
         IQueryable<Ticket> Tickets { get; }
         IQueryable<SeatRow> SeatRows { get; }
+
+        IQueryable<TextBar> TextBar { get; }
     }
 }
