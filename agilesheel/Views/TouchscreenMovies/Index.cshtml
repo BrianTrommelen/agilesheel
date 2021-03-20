@@ -1,0 +1,81 @@
+﻿@using agilesheel.Models
+@model agilesheel.ViewModels.MovieViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+<div class="container-fluid">
+    <h1>Current Movies</h1>
+    <div class="row touchscreen">
+        @foreach (var item in Model.Movies)
+        {
+            <div class="col-1">
+                <a class="movie-item" asp-action="Details" asp-route-id="@item.Id">
+                    <img src="@Html.DisplayFor(modelItem => item.PosterUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" height="300" />
+                    <h1 class="h6">@Html.DisplayFor(modelItem => item.Title)</h1>
+                    <span>@Html.DisplayFor(modelItem => item.Genre)</span>
+                    <span>Pegi: @Html.DisplayFor(modelItem => item.ParentalRating)</span>
+
+                    @if (item.Is3D)
+                    {
+                        <span>3D</span>
+                    }
+                </a>
+            </div>
+        }
+    </div>
+
+    <h1 class="my-4">Today's schedule</h1>
+
+
+    <table class="table touchscreen">
+        <thead>
+            <tr>
+                <th>
+                    Movie
+                </th>
+                <th>
+                    Theater
+                </th>
+                <th>
+                    Starts at
+                </th>
+                <th>
+                    Show Duration
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Shows)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Theater.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Length) Minutes
+                    </td>
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                        <a class="btn btn-success" asp-controller="TouchscreenTickets"
+                           asp-action="Create" asp-route-id="@item.Id">Order</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

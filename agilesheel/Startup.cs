@@ -66,7 +66,7 @@ namespace agilesheel
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Movies}/{action=Index}/{id?}");
+                    pattern: "{controller=Homepage}/{action=Index}/{id?}");
             });
             Models.Seeds.MovieSeed.EnsurePopulated(app);
         }

@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 namespace agilesheel.Controllers
 {
     [Authorize(Roles = "Touchscreen")]
-    public class ShowsController : Controller
+    public class TouchscreenShowsController : Controller
     {
         private readonly StoreDbContext _context;
 
-        public ShowsController(StoreDbContext context)
+        public TouchscreenShowsController(StoreDbContext context)
         {
             _context = context;
         }

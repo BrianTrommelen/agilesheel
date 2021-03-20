@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
-    public class TicketsController : Controller
+    public class TouchscreenTicketsController : Controller
     {
         private readonly StoreDbContext _context;
         private double NormalPrice = 9.00;
 
         private IStoreRepository _repo;
 
-        public TicketsController(StoreDbContext context, IStoreRepository repo)
+        public TouchscreenTicketsController(StoreDbContext context, IStoreRepository repo)
         {
             _context = context;
             _repo = repo;
