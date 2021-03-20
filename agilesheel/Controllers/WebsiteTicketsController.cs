@@ -53,52 +53,12 @@ namespace agilesheel.Controllers
             return View(ticketViewModel);
         }
 
-        public IActionResult Create(int? id)
+        public async Task<IActionResult> CreateAsync()
         {
-            int currentShow;
-            if (id != null)
+            TicketsViewModel ticketViewModel = new TicketsViewModel()
             {
-                currentShow = (int)id;
-            }
-            else
-            {
-                return NotFound();
-            }
-
-            TicketsViewModel ticketViewModel = new TicketsViewModel(_repo);
-
-            ticketViewModel.Shows = _repo.Shows.ToList();
-            ticketViewModel.Show = _repo.Shows.FirstOrDefault(x => x.Id == id);
-            ticketViewModel.Movie = _repo.Movies.FirstOrDefault(x => x.Id == ticketViewModel.Show.MovieId);
-
-            ticketViewModel.Seat = ticketViewModel.GetSeatNumber(currentShow);
-
-            if (ticketViewModel.Movie.Length <= 120)
-            {
-                NormalPrice = 8.50;
-            }
-
-            ViewBag.NormalPrice = String.Format("{0:0.00}", NormalPrice);
-
-            if (ticketViewModel.IsShowInTimeSpan(TimeSpan.FromHours(6), TimeSpan.FromHours(18)))
-            {
-                ViewBag.ChildrenPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
-            }
-            else
-            {
-                ViewBag.ChildrenPrice = ViewBag.NormalPrice;
-            }
-
-            if (ticketViewModel.IsShowInWeekDay(DateTime.Now))
-            {
-                ViewBag.StudentPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
-            }
-            else
-            {
-                ViewBag.StudentPrice = ViewBag.NormalPrice;
-            }
-
-            ViewBag.ElderyPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
+                Shows = await _context.Shows.Include(s => s.Movie).ToListAsync(),
+            };
 
             return View(ticketViewModel);
         }
