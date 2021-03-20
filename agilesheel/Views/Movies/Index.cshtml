@@ -26,20 +26,49 @@
 </div>
 <section class="banner bg-dark">
     <img class="img-fluid banner-image" src="/lib/images/bioscoop-digitaal.jpg" alt="Agilesheel Cinemas" />
-    <div class="covid-banner text-center py-4">
-        <p class="d-inline-block text-light mb-0">
-            Ons covid beleid.
-        </p>
-    </div>
 </section>
+
+<div class="row">
+    <div class="col-12 col-lg-10 offset-lg-1">
+        <div class="my-5">
+            <h2 class="my-4 text-center">Featured movies</h2>
+            <div class="media">
+                <img class="img-fluid mr-5" src="/lib/images/bioscoop-digitaal.jpg" width="400" height="400" alt="Alternate Text" />
+                <div class="media-body">
+                    <h3>Movie title</h3>
+
+                    <p>Text van uitgelichte film </p>
+
+                    <a class="btn btn-lg btn-outline-dark" href="#">Read more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
         <div class="col-12">
             <div class="text-center my-5">
-                <h2>This week's movies</h2>
+                <h2>Current movies</h2>
             </div>
         </div>
+
+
+        <div class="col-12 justify-content-end">
+            <ul>
+                <li class="d-inline-block">
+                    <a class="nav-link text-dark" href="#filterKidsMovies">Kids</a>
+                </li>
+                <li class="d-inline-block">
+                    <a class="nav-link text-dark" href="#filter3D">3D</a>
+                </li>
+                <li class="d-inline-block">
+                    <a class="nav-link text-dark" href="#genreDropdownToDo">Genre</a>
+                </li>
+            </ul>
+        </div>
+
 
         @foreach (var item in Model.Movies)
         {
@@ -57,22 +86,5 @@
                 </a>
             </div>
         }
-    </div>
-    <div class="row">
-        <div class="col-12 col-lg-10 offset-lg-1">
-            <div class="my-5">
-                <h2 class="my-4 text-center">Featured movies</h2>
-                <div class="media">
-                    <img class="img-fluid mr-5" src="/lib/images/bioscoop-digitaal.jpg" width="400" height="400" alt="Alternate Text" />
-                    <div class="media-body">
-                        <h3>Movie title</h3>
-
-                        <p>Text van uitgelichte film </p>
-
-                        <a class="btn btn-lg btn-outline-dark" href="#">Read more</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
