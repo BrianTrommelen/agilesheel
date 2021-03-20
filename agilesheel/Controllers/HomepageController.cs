@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Controllers
 {
+    [AllowAnonymous]
     public class HomepageController : Controller
     {
         private readonly StoreDbContext _context;
@@ -20,25 +21,67 @@ namespace agilesheel.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
-
-        // GET: HomepageController
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 0, 0, 0);
+            var offset = 0;
+            var date = DateTime.Now;
+            var currentWeekday = (int)date.DayOfWeek;
+            const int endDay = 4; // Thursday
+
+            if (currentWeekday < endDay)
+            {
+                offset = endDay - currentWeekday;
+            }
+            if (currentWeekday == endDay)
+            {
+                offset = 7;
+            }
+            if (currentWeekday > endDay)
+            {
+                offset = endDay - currentWeekday + 7;
+            }
+
+            var lastMovieDay = date.AddDays(offset);
+
             MovieViewModel movieViewModel = new MovieViewModel()
             {
-                Movies = await _context.Movies.ToListAsync(),
                 Shows = await _context.Shows
                 .Include(s => s.Movie)
                 .Include(s => s.Theater)
-                .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < end)))
-                .OrderBy(s => s.StartTime)
-               .ToListAsync()
+                .Where(s => (s.StartTime > DateTime.Now) && (s.StartTime < lastMovieDay))
+               .ToListAsync(),
+
+                Movies = new List<Movie>(),
             };
+
+            List<int> movie_ids = movieViewModel.Shows.Select(m => m.MovieId).Distinct().ToList();
+
+            foreach (int movie_id in movie_ids)
+            {
+                movieViewModel.Movies.Add(await _context.Movies.FirstOrDefaultAsync(m => m.Id == movie_id));
+            }
 
             return View(movieViewModel);
         }
+
+
+        //// GET: HomepageController
+        //public async Task<IActionResult> Index()
+        //{
+        //    DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 0, 0, 0);
+        //    MovieViewModel movieViewModel = new MovieViewModel()
+        //    {
+        //        Movies = await _context.Movies.ToListAsync(),
+        //        Shows = await _context.Shows
+        //        .Include(s => s.Movie)
+        //        .Include(s => s.Theater)
+        //        .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < end)))
+        //        .OrderBy(s => s.StartTime)
+        //       .ToListAsync()
+        //    };
+
+        //    return View(movieViewModel);
+        //}
 
         // GET: HomepageController/Details/5
         public ActionResult Details(int id)

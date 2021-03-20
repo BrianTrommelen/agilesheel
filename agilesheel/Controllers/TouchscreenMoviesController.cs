@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
-    public class MoviesController : Controller
+    public class TouchscreenMoviesController : Controller
     {
         private readonly StoreDbContext _context;
 
-        public MoviesController(StoreDbContext context)
+        public TouchscreenMoviesController(StoreDbContext context)
         {
             _context = context;
         }
