@@ -5,10 +5,6 @@
     ViewData["Title"] = "Index";
 }
 
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
-
 <div class="container">
     <div class="row justify-content-end">
         <ul>
@@ -19,7 +15,7 @@
                 <a class="nav-link text-dark" href="#">Cinemas</a>
             </li>
             <li class="d-inline-block">
-                <a class="nav-link text-dark" href="#">Contact</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Homepage" asp-action="Contact">Contact</a>
             </li>
         </ul>
     </div>
