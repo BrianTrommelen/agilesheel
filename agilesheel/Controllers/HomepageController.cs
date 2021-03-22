@@ -64,6 +64,8 @@ namespace agilesheel.Controllers
             {
                 Shows = await shows.ToListAsync(),
                 Movies = new List<Movie>(),
+
+                TextBar = await _context.TextBar.FirstOrDefaultAsync(),
             };
 
             List<int> movie_ids = movieViewModel.Shows.Select(m => m.MovieId).Distinct().ToList();
@@ -74,6 +76,56 @@ namespace agilesheel.Controllers
             }
 
             return View(movieViewModel);
+        }
+
+        [Authorize(Roles = "Admin, Manager")]
+        // GET: HomepageController/Details/5
+        public async Task<IActionResult> EditTextBar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var textBar = await _context.TextBar.FindAsync(id);
+            if (textBar == null)
+            {
+                return NotFound();
+            }
+            return View(textBar);
+        }
+
+        [Authorize(Roles = "Admin, Manager")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTextBar(int id, [Bind("Id,Content,Hide")] TextBar textBar)
+        {
+            if (id != textBar.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(textBar);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (textBar.Id == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(textBar); 
         }
 
         public IActionResult Contact()
