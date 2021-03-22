@@ -21,7 +21,7 @@ namespace agilesheel.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync(string genre, string _3d)
         {
             var offset = 0;
             var date = DateTime.Now;
@@ -43,14 +43,26 @@ namespace agilesheel.Controllers
 
             var lastMovieDay = date.AddDays(offset);
 
+            IQueryable<Show> shows = _context.Shows
+                            .Include(s => s.Movie)
+                            .Include(s => s.Theater)
+                            .Where(s => (s.StartTime > DateTime.Now) && (s.StartTime < lastMovieDay));
+
+            //Genre filter
+            if (!string.IsNullOrEmpty(genre))
+            {
+                shows = shows.Where(s => s.Movie.Genre.ToLower().Equals(genre.ToLower()));
+            }
+
+            // 3D filter
+            if (!string.IsNullOrEmpty(_3d))
+            {
+                shows = shows.Where(s => _3d == "true" ? s.Movie.Is3D : !s.Movie.Is3D);
+            }
+
             MovieViewModel movieViewModel = new MovieViewModel()
             {
-                Shows = await _context.Shows
-                .Include(s => s.Movie)
-                .Include(s => s.Theater)
-                .Where(s => (s.StartTime > DateTime.Now) && (s.StartTime < lastMovieDay))
-               .ToListAsync(),
-
+                Shows = await shows.ToListAsync(),
                 Movies = new List<Movie>(),
             };
 
