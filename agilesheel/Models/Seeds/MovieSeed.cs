@@ -35,7 +35,11 @@ namespace agilesheel.Models.Seeds
                     new Cinema
                     {
                         Name = "Agile's Heel Movies",
-                        Location = "Breda"
+                        Location = "Breda, Hogeschoollaan 1",
+                        Email = "info@agilesheel.nl",
+                        Tel = "076-12 234 567",
+                        FBLink = "fb.com/agilesheel",
+                        InstaLink = "insta.com/agilesheel"
                     });
             }
 
