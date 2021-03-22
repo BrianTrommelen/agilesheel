@@ -15,6 +15,14 @@ namespace agilesheel.Models
 
         public string Location { get; set; }
 
+        public string Tel { get; set; }
+
+        public string Email { get; set; }
+
+        public string FBLink { get; set; }
+
+        public string InstaLink { get; set; }
+
         public ICollection<Theater> Theaters { get; set; }
     }
 }
