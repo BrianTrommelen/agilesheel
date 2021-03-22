@@ -40,5 +40,10 @@ namespace agilesheel.Constants
             public const string Edit = "Permissions.Movies.Edit";
             public const string Delete = "Permissions.Movies.Delete";
         }
+
+        public static class TextBar
+        {
+            public const string Edit = "Permissions.TextBar.Edit";
+        }
     }
 }

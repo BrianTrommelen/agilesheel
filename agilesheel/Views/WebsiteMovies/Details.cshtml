@@ -1,0 +1,112 @@
+﻿@using agilesheel.Models
+@model agilesheel.ViewModels.MovieViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using agilesheel.Constants
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <h1>@Html.DisplayFor(model => model.Movie.Title)</h1>
+    <hr />
+    <div class="row mb-5">
+        <div class="col-6">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Movie.Length)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Movie.Length)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Movie.Synopsis)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Movie.Synopsis)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Movie.Year)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Movie.Year)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Movie.Genre)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Movie.Genre)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Movie.ParentalRating)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Movie.ParentalRating)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Movie.Is3D)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Movie.Is3D)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-2 offset-1">
+            <div class="movie-item">
+                <img src="@Html.DisplayFor(modelItem => Model.Movie.PosterUrl)" alt="@Html.DisplayFor(modelItem => Model.Movie.Title)" height="300" />
+            </div>
+        </div>
+    </div>
+
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Movies.Create)).Result.Succeeded)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Movie.Id">Edit</a>
+    }
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Movies.Delete)).Result.Succeeded)
+    {
+        <a asp-action="Delete" asp-route-id="@Model.Movie.Id">Delete</a>
+    }
+
+    <a asp-action="Index">Back to list</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Theater
+                </th>
+                <th>
+                    Starts at
+                </th>
+                <th>
+                    Show Duration
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Shows)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Theater.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Model.Movie.Length Minutes
+                    </td>
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                        <a class="btn btn-success" asp-controller="TouchscreenTickets"
+                           asp-action="Create" asp-route-id="@item.Id">Order</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

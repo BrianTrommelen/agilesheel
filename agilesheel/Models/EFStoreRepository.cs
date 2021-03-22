@@ -19,5 +19,6 @@ namespace agilesheel.Models
         public IQueryable<Show> Shows => context.Shows;
         public IQueryable<Ticket> Tickets => context.Tickets;
         public IQueryable<SeatRow> SeatRows => context.SeatRows;
+        public IQueryable<TextBar> TextBar => context.TextBar;
     }
 }
