@@ -8,6 +8,21 @@
     ViewData["Title"] = "Index";
 }
 
+<div class="container">
+    <div class="row justify-content-end">
+        <ul>
+            <li class="d-inline-block">
+                <a class="nav-link text-dark" href="#">Movies</a>
+            </li>
+            <li class="d-inline-block">
+                <a class="nav-link text-dark" href="#">Cinemas</a>
+            </li>
+            <li class="d-inline-block">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Homepage" asp-action="Contact">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
 @if (!Model.TextBar.Hide)
 {
     <section class="banner bg-dark">
@@ -30,6 +45,31 @@
         <div class="col-12">
             <div class="text-center my-5">
                 <h2>This week's movies</h2>
+            </div>
+        </div>
+        <div>
+            <div class="dropdown">
+                <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Genre
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" asp-action="Index" asp-route-genre="">Alles!</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-genre="action">Action!</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-genre="drama">Drama!</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-genre="adventure">Adventure!</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    3D
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" asp-action="Index" asp-route-_3d="">Alle films</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-_3d="true">Alle 3D films</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-_3d="false">Geen 3D films</a>
+                </div>
             </div>
         </div>
 
