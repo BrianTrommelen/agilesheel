@@ -27,6 +27,8 @@ namespace agilesheel.Models
 
         public bool Is3D { get; set; }
 
+        public bool IsFeatured { get; set; }
+
         public string PosterUrl { get; set; }
     }
 }

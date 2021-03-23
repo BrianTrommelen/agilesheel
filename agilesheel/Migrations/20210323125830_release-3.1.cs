@@ -2,13 +2,13 @@
 
 namespace agilesheel.Migrations
 {
-    public partial class add_hide_column_textbar : Migration
+    public partial class release31 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "Hide",
-                table: "TextBar",
+                name: "IsFeatured",
+                table: "Movies",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -17,8 +17,8 @@ namespace agilesheel.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Hide",
-                table: "TextBar");
+                name: "IsFeatured",
+                table: "Movies");
         }
     }
 }

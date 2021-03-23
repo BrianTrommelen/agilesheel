@@ -1,106 +1,73 @@
 ﻿@using agilesheel.Models
-@model agilesheel.ViewModels.MovieViewModel
-
-@{
-    ViewData["Title"] = "Details";
-}
+@model agilesheel.ViewModels.CinemaViewModel
 
 <div class="container">
-    <h1>@Html.DisplayFor(model => model.Movie.Title)</h1>
+    <br />
+    <h1>Contact</h1>
+    <br />
+    <div>
+        <dl class="row">
+            <dt class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Cinema.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cinema.Name)
+            </dd>
+            <dt class="col-sm-10">
+                E-mail
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cinema.Email)
+            </dd>
+            <dt class="col-sm-10">
+                Phone
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cinema.Tel)
+            </dd>
+            <dt class="col-sm-10">
+                Social media (Follow us!)
+            </dt>
+            <dd class="col-sm-10">
+                <a href="@Html.DisplayFor(model => model.Cinema.FBLink)" target="_blank">
+                    <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="m75 512h167v-182h-60v-60h60v-75c0-41.355469 33.644531-75 75-75h75v60h-60c-16.542969 0-30 13.457031-30 30v60h87.292969l-10 60h-77.292969v182h135c41.355469 0 75-33.644531 75-75v-362c0-41.355469-33.644531-75-75-75h-362c-41.355469 0-75 33.644531-75 75v362c0 41.355469 33.644531 75 75 75zm-45-437c0-24.8125 20.1875-45 45-45h362c24.8125 0 45 20.1875 45 45v362c0 24.8125-20.1875 45-45 45h-105v-122h72.707031l20-120h-92.707031v-30h90v-120h-105c-57.898438 0-105 47.101562-105 105v45h-60v120h60v122h-137c-24.8125 0-45-20.1875-45-45zm0 0" /></svg>
+                </a>
+                &nbsp;&nbsp;&nbsp;
+                <a href="@Html.DisplayFor(model => model.Cinema.InstaLink)" target="_blank">
+                    <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="m75 512h362c41.355469 0 75-33.644531 75-75v-362c0-41.355469-33.644531-75-75-75h-362c-41.355469 0-75 33.644531-75 75v362c0 41.355469 33.644531 75 75 75zm-45-437c0-24.8125 20.1875-45 45-45h362c24.8125 0 45 20.1875 45 45v362c0 24.8125-20.1875 45-45 45h-362c-24.8125 0-45-20.1875-45-45zm0 0" /><path d="m256 391c74.4375 0 135-60.5625 135-135s-60.5625-135-135-135-135 60.5625-135 135 60.5625 135 135 135zm0-240c57.898438 0 105 47.101562 105 105s-47.101562 105-105 105-105-47.101562-105-105 47.101562-105 105-105zm0 0" /><path d="m406 151c24.8125 0 45-20.1875 45-45s-20.1875-45-45-45-45 20.1875-45 45 20.1875 45 45 45zm0-60c8.269531 0 15 6.730469 15 15s-6.730469 15-15 15-15-6.730469-15-15 6.730469-15 15-15zm0 0" /></svg>
+                </a>
+            </dd>
+        </dl>
+        <br />
+        <H4>@Html.DisplayNameFor(model => model.Cinema.Location)</H4>
+        <h7></h7>
+        <div class="mapouter">
+            <div class="gmap_canvas">
+                <iframe height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=@Html.UrlEncoder.Encode(Model.Cinema.Location)&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://embedgooglemap.net/maps/37"></a><br>
+                <style>
+                    .mapouter {
+                        position: relative;
+                        text-align: right;
+                        height: 500px;
+                        width: 100%;
+                    }
 
-
-    <hr />
-    <div class="row mb-5">
-        <div class="col-6">
-            <dl class="row">
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Movie.Length)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Movie.Length)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Movie.Synopsis)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Movie.Synopsis)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Movie.Year)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Movie.Year)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Movie.Genre)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Movie.Genre)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Movie.ParentalRating)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Movie.ParentalRating)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Movie.Is3D)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Movie.Is3D)
-                </dd>
-            </dl>
-        </div>
-        <div class="col-4 col-lg-3 col-xl-2 offset-1">
-            <div class="movie-item">
-                <img src="@Html.DisplayFor(modelItem => Model.Movie.PosterUrl)" alt="@Html.DisplayFor(modelItem => Model.Movie.Title)" height="300" />
+                    iframe {
+                        float: left;
+                        width: 100%;
+                    }
+                </style><a href="https://www.embedgooglemap.net">embedgooglemap.net</a>
+                <style>
+                    .gmap_canvas {
+                        overflow: hidden;
+                        background: none !important;
+                        height: 500px;
+                        width: 100%;
+                    }
+                </style>
             </div>
         </div>
     </div>
-    @*<a asp-action="Edit" asp-route-id="@Model.Movie.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>*@
-
-    <div class="">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Theater
-                    </th>
-                    <th>
-                        Starts at
-                    </th>
-                    <th>
-                        Show Duration
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Shows)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Theater.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StartTime)
-                        </td>
-                        <td>
-                            @Model.Movie.Length Minutes
-                        </td>
-                        <td>
-                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                            <a class="btn btn-success" asp-controller="TouchscreenTickets"
-                               asp-action="Create" asp-route-id="@item.Id">Order</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <a class="btn btn-info" asp-action="Index">Back to List</a>
-    </div>
 </div>
+
+

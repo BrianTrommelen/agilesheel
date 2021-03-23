@@ -2,13 +2,13 @@
 
 namespace agilesheel.Migrations
 {
-    public partial class add_user_id_to_tickets : Migration
+    public partial class release32 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "UserId",
-                table: "Tickets",
+                name: "LocationImageUrl",
+                table: "Cinemas",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -16,8 +16,8 @@ namespace agilesheel.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Tickets");
+                name: "LocationImageUrl",
+                table: "Cinemas");
         }
     }
 }

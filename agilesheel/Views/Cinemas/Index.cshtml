@@ -1,5 +1,5 @@
 ﻿@using agilesheel.Models
-@model agilesheel.ViewModels.MovieViewModel
+@model agilesheel.ViewModels.CinemaViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,63 +10,22 @@
     </p>*@
 
 <div class="container">
-    <div class="row justify-content-end">
-        <ul>
-            <li class="d-inline-block">
-                <a class="nav-link text-dark" asp-controller="Movies" asp-action="Index">Movies</a>
-            </li>
-            <li class="d-inline-block">
-                <a class="nav-link text-dark" href="#">Cinemas</a>
-            </li>
-            <li class="d-inline-block">
-                <a class="nav-link text-dark" href="#">Contact</a>
-            </li>
-        </ul>
-    </div>
-</div>
-<section class="banner bg-dark">
-    <img class="img-fluid banner-image" src="/lib/images/bioscoop-digitaal.jpg" alt="Agilesheel Cinemas" />
-</section>
-
-<div class="row">
-    <div class="col-12 col-lg-10 offset-lg-1">
-        <div class="my-5">
-            <h2 class="my-4 text-center">Featured movies</h2>
-            <div class="media">
-                <img class="img-fluid mr-5" src="/lib/images/bioscoop-digitaal.jpg" width="400" height="400" alt="Alternate Text" />
-                <div class="media-body">
-                    <h3>Movie title</h3>
-
-                    <p>Text van uitgelichte film </p>
-
-                    <a class="btn btn-lg btn-outline-dark" href="#">Read more</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
     <div class="row">
-        <div class="col-12">
-            <div class="text-center my-5">
-                <h2>Current movies</h2>
-            </div>
-        </div>
+        @foreach (var cinema in Model.Cinemas)
+        {
+        <div class="col-12 my-5">
+            <a asp-action="Cinema" asp-route-id="@cinema.Id">
+                <div class="media">
+                    <img class="img-fluid mr-5" src="@cinema.LocationImageUrl" width="400" height="400" alt="Alternate Text" />
+                    <div class="media-body">
+                        <h3>@cinema.Name</h3>
 
-
-        <div class="col-12 justify-content-end">
-            <ul>
-                <li class="d-inline-block">
-                    <a class="nav-link text-dark" href="#filterKidsMovies">Kids</a>
-                </li>
-                <li class="d-inline-block">
-                    <a class="nav-link text-dark" href="#filter3D">3D</a>
-                </li>
-                <li class="d-inline-block">
-                    <a class="nav-link text-dark" href="#genreDropdownToDo">Genre</a>
-                </li>
-            </ul>
+                        <p>Email: @cinema.Email</p>
+                        <p>Phone: @cinema.Tel</p>
+                    </div>
+                </div>
+            </a>
         </div>
+        }
     </div>
 </div>

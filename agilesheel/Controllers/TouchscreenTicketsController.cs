@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
+    [Authorize(Roles = "Touchscreen")]
     public class TouchscreenTicketsController : Controller
     {
         private readonly StoreDbContext _context;

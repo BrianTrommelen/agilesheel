@@ -10,8 +10,8 @@ using agilesheel.Models;
 namespace agilesheel.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20210315181049_identityuser")]
-    partial class identityuser
+    [Migration("20210323125830_release-3.1")]
+    partial class release31
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -224,10 +224,22 @@ namespace agilesheel.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FBLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InstaLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tel")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -246,6 +258,9 @@ namespace agilesheel.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Is3D")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
 
                     b.Property<int>("Length")
@@ -322,6 +337,24 @@ namespace agilesheel.Migrations
                     b.ToTable("Shows");
                 });
 
+            modelBuilder.Entity("agilesheel.Models.TextBar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Hide")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TextBar");
+                });
+
             modelBuilder.Entity("agilesheel.Models.Theater", b =>
                 {
                     b.Property<int>("Id")
@@ -369,6 +402,9 @@ namespace agilesheel.Migrations
 
                     b.Property<int?>("ShowId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

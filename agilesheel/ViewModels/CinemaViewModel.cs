@@ -21,6 +21,6 @@ namespace agilesheel.ViewModels
 
         private IStoreRepository _repo;
         public Cinema Cinema { get; set; }
-        public List<Cinema> Shows { get; set; }        
+        public List<Cinema> Cinemas { get; set; }        
     }
 }

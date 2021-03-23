@@ -43,12 +43,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.SeatRowId)
         </dd>
-        <dt class="col-sm-2">
-            Cinema
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Ticket.Show.Theater.Cinema.Name<br />Theater: @Model.Ticket.Show.Theater.Name
-        </dd>
     </dl>
     @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
     <a class="btn btn-info" asp-controller="TouchscreenMovies" asp-action="Index">Print ticket</a>

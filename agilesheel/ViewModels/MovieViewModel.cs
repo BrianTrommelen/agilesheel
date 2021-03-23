@@ -22,9 +22,11 @@ namespace agilesheel.ViewModels
         private IStoreRepository _repo;
 
         public Show Show { get; set; }
+        public Ticket Ticket { get; set; }
         public Movie Movie { get; set; }
         public List<Show> Shows { get; set; }
         public List<Movie> Movies { get; set; }
+        public List<Movie> FeaturedMovies { get; set; }
         public TextBar TextBar { get; set; }
     }
 }

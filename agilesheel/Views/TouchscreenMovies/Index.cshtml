@@ -10,6 +10,12 @@
     </p>*@
 
 <div class="container-fluid">
+    <h2>Already bought your ticket? Insert code here.</h2>
+    <form asp-action="CheckTicketCode" method="post" class="my-4">
+        <label for="code" class="control-label"></label>
+        <input id="code" name="code" class="form-control" />
+        <input type="submit" value="Search" class="btn btn-info" />
+    </form>
     <h1>Current Movies</h1>
     <div class="row touchscreen">
         @foreach (var item in Model.Movies)

@@ -10,8 +10,8 @@ using agilesheel.Models;
 namespace agilesheel.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20210320190127_add_text_homepage")]
-    partial class add_text_homepage
+    [Migration("20210323130002_release-3.2")]
+    partial class release32
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -224,10 +224,25 @@ namespace agilesheel.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FBLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InstaLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LocationImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tel")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -246,6 +261,9 @@ namespace agilesheel.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Is3D")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
 
                     b.Property<int>("Length")
@@ -331,6 +349,9 @@ namespace agilesheel.Migrations
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Hide")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

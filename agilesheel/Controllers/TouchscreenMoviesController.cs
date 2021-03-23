@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
+    [Authorize(Roles = "Touchscreen")]
     public class TouchscreenMoviesController : Controller
     {
         private readonly StoreDbContext _context;
@@ -20,7 +21,6 @@ namespace agilesheel.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
         // GET: Movies
         public async Task<IActionResult> Index()
         {
@@ -39,7 +39,21 @@ namespace agilesheel.Controllers
             return View(movieViewModel);
         }
 
-        [Authorize(Roles = "Touchscreen")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckTicketCode(string code)
+        {
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.Code == code);
+
+            if(ticket != null)
+            {
+                return RedirectToAction("Details", "TouchscreenTickets", new { id = ticket.Id });
+            }
+
+            return RedirectToAction("Index");
+        }
+
+       [Authorize(Roles = "Touchscreen")]
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -78,7 +92,7 @@ namespace agilesheel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Length,Synopsis,Year,Genre,PosterUrl,ParentalRating,Is3D")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,Length,Synopsis,Year,Genre,PosterUrl,ParentalRating,Is3D,IsFeatured")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +126,7 @@ namespace agilesheel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Length,Synopsis,Year,Genre,PosterUrl,ParentalRating,Is3D")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Length,Synopsis,Year,Genre,PosterUrl,ParentalRating,Is3D,IsFeatured")] Movie movie)
         {
             if (id != movie.Id)
             {

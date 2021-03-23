@@ -1,71 +1,120 @@
-﻿using agilesheel.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using agilesheel.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using agilesheel.Models;
 using agilesheel.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
-    [Authorize(Roles = "Basic")]
-    public class WebsiteTicketsController : Controller
+    public class TicketsController : Controller
     {
         private readonly StoreDbContext _context;
-        private IStoreRepository _repo;
         private double NormalPrice = 9.00;
 
-        public WebsiteTicketsController(StoreDbContext context)
+        private IStoreRepository _repo;
+
+        public TicketsController(StoreDbContext context, IStoreRepository repo)
         {
             _context = context;
+            _repo = repo;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        // GET: Tickets
+        public async Task<IActionResult> Index()
         {
-            var tickets = await _context.Tickets.Where(t => t.UserId == User.GetUserId()).ToListAsync();
-            return View(tickets);
+            return View(await _context.Tickets.ToListAsync());
         }
 
+        // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            var movie = await _context.Movies
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             TicketsViewModel ticketViewModel = new TicketsViewModel()
             {
                 Ticket = await _context.Tickets
-                .Include(t => t.Show)
-                .Include(t => t.Show.Movie)
-                .Include(t => t.Show.Theater)
-                .Include(t => t.Show.Theater.Cinema)
-                .FirstOrDefaultAsync(t => t.Id == id),
+               .FirstOrDefaultAsync(m => m.Id == id),
             };
+
+            ticketViewModel.Show = await _repo.Shows
+                .Include(s => s.Theater)
+                .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Ticket.ShowId);
+            ticketViewModel.Movie = await _repo.Movies
+                .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Show.MovieId);
 
             ViewBag.Price = String.Format("{0:0.00}", (ticketViewModel.Ticket.Price));
 
+            // ViewBags need to change to viewmodel
             return View(ticketViewModel);
         }
 
-        public async Task<IActionResult> CreateAsync()
+        // GET: Tickets/Create
+        public IActionResult Create(int? id)
         {
-            TicketsViewModel ticketViewModel = new TicketsViewModel()
+            int currentShow;
+            if (id != null)
             {
-                Shows = await _context.Shows.Include(s => s.Movie).ToListAsync(),
-            };
+                currentShow = (int)id;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            TicketsViewModel ticketViewModel = new TicketsViewModel(_repo);
+
+            ticketViewModel.Shows = _repo.Shows.ToList();
+            ticketViewModel.Show = _repo.Shows.FirstOrDefault(x => x.Id == id);
+            ticketViewModel.Movie = _repo.Movies.FirstOrDefault(x => x.Id == ticketViewModel.Show.MovieId);
+
+            ticketViewModel.Seat = ticketViewModel.GetSeatNumber(currentShow);
+
+            if (ticketViewModel.Movie.Length <= 120)
+            {
+                NormalPrice = 8.50;
+            }
+
+            ViewBag.NormalPrice = String.Format("{0:0.00}", NormalPrice);
+
+            if (ticketViewModel.IsShowInTimeSpan(TimeSpan.FromHours(6), TimeSpan.FromHours(18)))
+            {
+                ViewBag.ChildrenPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
+            }
+            else
+            {
+                ViewBag.ChildrenPrice = ViewBag.NormalPrice;
+            }
+
+            if (ticketViewModel.IsShowInWeekDay(DateTime.Now))
+            {
+                ViewBag.StudentPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
+            }
+            else
+            {
+                ViewBag.StudentPrice = ViewBag.NormalPrice;
+            }
+
+            ViewBag.ElderyPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
 
             return View(ticketViewModel);
         }
 
+        // POST: Tickets/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber,UserId")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber")] Ticket ticket)
         {
 
             if (ModelState.IsValid)
@@ -78,6 +127,7 @@ namespace agilesheel.Controllers
             return View(ticket);
         }
 
+        // GET: Tickets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,6 +143,9 @@ namespace agilesheel.Controllers
             return View(ticket);
         }
 
+        // POST: Tickets/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,Price,SeatNumber")] Ticket ticket)
@@ -125,6 +178,7 @@ namespace agilesheel.Controllers
             return View(ticket);
         }
 
+        // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,6 +196,7 @@ namespace agilesheel.Controllers
             return View(ticket);
         }
 
+        // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -152,7 +207,7 @@ namespace agilesheel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-                private bool TicketExists(int id)
+        private bool TicketExists(int id)
         {
             return _context.Tickets.Any(e => e.Id == id);
         }

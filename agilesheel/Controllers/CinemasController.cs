@@ -1,87 +1,47 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using agilesheel.Models;
+using agilesheel.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
 {
+    [AllowAnonymous]
     public class CinemasController : Controller
     {
-        // GET: CinemasController
-        public ActionResult Index()
+        private readonly StoreDbContext _context;
+
+        public CinemasController(StoreDbContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        // GET: CinemasController
+        public async Task<IActionResult> Index()
+        {
+            CinemaViewModel cinemaViewModel = new CinemaViewModel()
+            {
+                Cinemas = await _context.Cinemas.ToListAsync()
+            };
+
+            return View(cinemaViewModel);
         }
 
         // GET: CinemasController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Cinema(int? id)
         {
-            return View();
-        }
-
-        // GET: CinemasController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CinemasController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            CinemaViewModel cinemaViewModel = new CinemaViewModel()
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                Cinema = await _context.Cinemas.FirstOrDefaultAsync(c => c.Id == id)
+            };
 
-        // GET: CinemasController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CinemasController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CinemasController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CinemasController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            
+            return View(cinemaViewModel);
         }
     }
 }

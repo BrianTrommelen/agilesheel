@@ -23,6 +23,11 @@ namespace agilesheel.Controllers
 
         public async Task<IActionResult> IndexAsync(string genre, string _3d)
         {
+            if(User.IsInRole("Touchscreen") && !User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "TouchscreenMovies");
+            }
+
             var offset = 0;
             var date = DateTime.Now;
             var currentWeekday = (int)date.DayOfWeek;
@@ -64,6 +69,9 @@ namespace agilesheel.Controllers
             {
                 Shows = await shows.ToListAsync(),
                 Movies = new List<Movie>(),
+                FeaturedMovies = await _context.Movies
+                .Where(s => s.IsFeatured == true)
+                .ToListAsync(),
 
                 TextBar = await _context.TextBar.FirstOrDefaultAsync(),
             };
@@ -126,11 +134,6 @@ namespace agilesheel.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(textBar); 
-        }
-
-        public IActionResult Contact()
-        {
-            return View(_context.Cinemas.FirstOrDefault());
         }
     }
 }

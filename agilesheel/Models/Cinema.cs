@@ -15,6 +15,8 @@ namespace agilesheel.Models
 
         public string Location { get; set; }
 
+        public string LocationImageUrl { get; set; }
+
         public string Tel { get; set; }
 
         public string Email { get; set; }
