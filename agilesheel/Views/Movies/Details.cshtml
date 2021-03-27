@@ -1,4 +1,7 @@
 ﻿@using agilesheel.Models
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using agilesheel.Constants
 @model agilesheel.ViewModels.MovieViewModel
 
 @{
@@ -6,7 +9,17 @@
 }
 
 <div class="container">
-    <h1>@Html.DisplayFor(model => model.Movie.Title)</h1>
+
+    <div class="row align-items-md-center">
+        <h1 class="col-10 float-left">@Html.DisplayFor(model => model.Movie.Title)</h1>
+
+        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Movies.Edit)).Result.Succeeded)
+        {
+            <div class="col-2 float-left">
+                <a asp-action="Edit" asp-route-id="@Model.Movie.Id" class="btn btn-success float-right">Edit</a>
+            </div>
+        }
+    </div>
 
 
     <hr />

@@ -1,4 +1,5 @@
-﻿using agilesheel.ViewModels;
+﻿using agilesheel.Constants;
+using agilesheel.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,7 @@ namespace agilesheel.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
 
                     return RedirectToAction("index", "Homepage");
                 }

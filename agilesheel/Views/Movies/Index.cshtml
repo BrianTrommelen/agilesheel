@@ -1,19 +1,24 @@
 ﻿@using agilesheel.Models
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using agilesheel.Constants
 @model agilesheel.ViewModels.MovieViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
-
 <section class="banner bg-dark">
     <img class="img-fluid banner-image" src="/lib/images/bioscoop-digitaal.jpg" alt="Agilesheel Cinemas" />
 </section>
 
 <div class="container">
+
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Movies.Create)).Result.Succeeded)
+    {
+        <a asp-action="Create" class="btn btn-success mt-4">Create new movie</a>
+    }
+
     <div class="row">
         <div class="col-12 col-lg-10 offset-lg-1">
             <div class="my-5">
@@ -29,7 +34,7 @@
 
                                     <p>@featuredMovie.Synopsis </p>
 
-                                    <a class="btn btn-lg btn-outline-dark" asp-controller="Movies" asp-action="Movie" asp-route-id="@featuredMovie.Id">Read more</a>
+                                    <a class="btn btn-lg btn-outline-dark" asp-controller="Movies" asp-action="Details" asp-route-id="@featuredMovie.Id">Read more</a>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +87,7 @@
         @foreach (var item in Model.Movies)
         {
             <div class="col-4 col-lg-3 col-xl-2">
-                <a class="movie-item" asp-controller="Movies" asp-action="Movie" asp-route-id="@item.Id">
+                <a class="movie-item" asp-controller="Movies" asp-action="Details" asp-route-id="@item.Id">
                     <img src="@Html.DisplayFor(modelItem => item.PosterUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" height="300" />
                     <h1 class="h6">@Html.DisplayFor(modelItem => item.Title)</h1>
                     <span>@Html.DisplayFor(modelItem => item.Genre)</span>

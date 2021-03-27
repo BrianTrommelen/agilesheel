@@ -1,0 +1,28 @@
+﻿@using agilesheel.Models
+@model agilesheel.ViewModels.MovieViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    string message = TempData["Error message"] as string;
+}
+
+<div class="container">
+
+    @if (message != null)
+    {
+        <div>@message</div>
+    }
+
+    @foreach (var item in Model.Shows)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+        </tr>
+    }
+
+    <div class="row">
+        <a asp-action="Index" class="btn btn-info">Choose another selection</a>
+    </div>
+</div>

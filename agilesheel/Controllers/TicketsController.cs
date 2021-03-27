@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using agilesheel.ViewModels;
+using agilesheel.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace agilesheel.Controllers
@@ -27,7 +28,7 @@ namespace agilesheel.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tickets.ToListAsync());
+            return View(await _context.Tickets.Where(t => t.UserId == User.GetUserId()).ToListAsync());
         }
 
         // GET: Tickets/Details/5
