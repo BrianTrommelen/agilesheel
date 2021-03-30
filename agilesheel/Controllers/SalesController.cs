@@ -15,6 +15,7 @@ namespace agilesheel.Controllers
     public class SalesController : Controller
     {
         private readonly StoreDbContext _context;
+        private double saleOverviewPrice = 0;
 
         public SalesController(StoreDbContext context)
         {
@@ -28,18 +29,43 @@ namespace agilesheel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckSales(DateTime startTime, DateTime endTime)
+        public async Task<IActionResult> SalesOverview(DateTime startTime, DateTime endTime)
         {
+            startTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 0, 0, 0);
+            endTime = new DateTime(endTime.Year, endTime.Month, endTime.Day, 23, 59, 59);
+
             MovieViewModel movieViewModel = new MovieViewModel()
             {
                 Shows = await _context.Shows
-                .Where(s => s.StartTime >= startTime && s.StartTime <= endTime)
-                .Include(s => s.Tickets)
-                .ToListAsync()
+                .Include(t => t.Tickets)
+                .Where(s => s.StartTime >= startTime && s.StartTime <= endTime && s.Tickets.Count() > 0)
+                .ToListAsync(),
+
+                Tickets = new List<Ticket>(),
             };
 
-            TempData["Error message"] = "No results for selection";
-            return View("SalesOverview", movieViewModel);
+            List<int> show_ids = movieViewModel.Shows.Select(s => s.Id).ToList();
+
+            foreach (int show_id in show_ids)
+            {
+                var ticket = await _context.Tickets.Where(t => t.ShowId == show_id)
+                    .Include(s => s.Show)
+                    .Include(m => m.Show.Movie)
+                    .Include(m => m.Show.Theater)
+                    .Include(m => m.Show.Theater.Cinema)
+                    .FirstOrDefaultAsync();
+                movieViewModel.Tickets.Add(ticket);
+            }
+
+            foreach(Ticket ticket in movieViewModel.Tickets)
+            {
+                saleOverviewPrice = saleOverviewPrice + ticket.Price;
+            }
+
+            ViewBag.SalesOverviewPrice = String.Format("{0:0.00}", saleOverviewPrice); ;
+            ViewBag.TicketsSold = movieViewModel.Tickets.Count();
+
+            return View(movieViewModel);
         }
     }
 }

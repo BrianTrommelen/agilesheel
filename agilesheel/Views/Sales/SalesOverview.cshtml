@@ -3,26 +3,54 @@
 
 @{
     ViewData["Title"] = "Details";
-    string message = TempData["Error message"] as string;
 }
 
 <div class="container">
 
-    @if (message != null)
-    {
-        <div>@message</div>
-    }
+    <div class="row mt-4 mb-4">
+        <div class="col-6">
+            <span>Tickets sold: <strong>@ViewBag.TicketsSold</strong></span>
+        </div>
+        <div class="col-6 text-right">
+            <span>Tickets total price: <strong>@ViewBag.SalesOverviewPrice</strong></span>
+</div>
+    </div>
 
-    @foreach (var item in Model.Shows)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-        </tr>
-    }
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Cinema</th>
+                <th scope="col">Theater</th>
+                <th scope="col">Movie</th>
+                <th scope="col">Ticket code</th>
+                <th scope="col">Ticket price</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+        <tbody>
+            @foreach (var item in Model.Tickets)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Show.Theater.Cinema.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Show.Theater.Name)</td>
+                    <td>
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.Show.Movie.Id">
+                            @Html.DisplayFor(modelItem => item.Show.Movie.Title)
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Tickets" asp-action="Details" asp-route-id="@item.Id" target="_blank">
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </a>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-    <div class="row">
+    <div class="row mt-4">
         <a asp-action="Index" class="btn btn-info">Choose another selection</a>
     </div>
 </div>
