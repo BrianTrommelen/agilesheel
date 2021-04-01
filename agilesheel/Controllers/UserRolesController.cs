@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,6 +35,8 @@ namespace agilesheel.Controllers
                 {
                     RoleName = role.Name
                 };
+
+                // Set the role to selected if there is a relation
                 if (await _userManager.IsInRoleAsync(user, role.Name))
                 {
                     userRolesViewModel.Selected = true;

@@ -40,11 +40,6 @@ namespace agilesheel.ViewModels
             return _repo.Movies
                 .FirstOrDefault(m => m.Id == Show.MovieId);
         }
-        //public Movie getCurrentRowSeats(int rowId)
-        //{
-        //    return _repo.Movies
-        //        .FirstOrDefault(m => m.Id == rowId);
-        //}
 
         public List<int> GetSeatNumber(int showId)
         {

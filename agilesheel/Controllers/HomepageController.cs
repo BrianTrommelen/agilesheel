@@ -1,7 +1,6 @@
 ﻿using agilesheel.Models;
 using agilesheel.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,35 +22,47 @@ namespace agilesheel.Controllers
 
         public async Task<IActionResult> IndexAsync(string genre, string _3d)
         {
+            // Check if user has the right role
             if(User.IsInRole("Touchscreen") && !User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "TouchscreenMovies");
             }
 
+            // How many days to be added
             var offset = 0;
+
             var date = DateTime.Now;
             var currentWeekday = (int)date.DayOfWeek;
             const int endDay = 4; // Thursday
 
+            // If current day is before thursday
+            // Count down till thursday
             if (currentWeekday < endDay)
             {
                 offset = endDay - currentWeekday;
             }
+
+            // If current day is equal thursday
+            // Start a new week
             if (currentWeekday == endDay)
             {
                 offset = 7;
             }
+
+            // If current day is after thursday
+            // Count thursday down to the current day, plus the ammount of days that's left
             if (currentWeekday > endDay)
             {
                 offset = endDay - currentWeekday + 7;
             }
 
+            // Add the defined days
             var lastMovieDay = date.AddDays(offset);
 
             IQueryable<Show> shows = _context.Shows
                             .Include(s => s.Movie)
                             .Include(s => s.Theater)
-                            .Where(s => (s.StartTime > DateTime.Now) && (s.StartTime < lastMovieDay));
+                            .Where(s => (s.StartTime > date) && (s.StartTime < lastMovieDay));
 
             //Genre filter
             if (!string.IsNullOrEmpty(genre))
