@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using agilesheel.ViewModels;
+using agilesheel.Helpers;
 
 namespace agilesheel.Controllers
 {
@@ -24,7 +25,7 @@ namespace agilesheel.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tickets.ToListAsync());
+            return View(await _context.Tickets.Where(t => t.UserId == User.GetUserId()).ToListAsync());
         }
 
         // GET: Tickets/Details/5
@@ -113,7 +114,7 @@ namespace agilesheel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber,UserId")] Ticket ticket)
         {
 
             if (ModelState.IsValid)

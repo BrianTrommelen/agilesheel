@@ -1,4 +1,7 @@
 ﻿@model agilesheel.ViewModels.TicketsViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using agilesheel.Helpers
 
 @{
     ViewData["Title"] = "Add ticket";
@@ -15,6 +18,8 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <h2>Seatnumber: @Model.Seat[1]</h2>
                 <h2>SeatRow: @Model.Seat[0]</h2>
+
+                <input type="hidden" value="@User.GetUserId()" asp-for="Ticket.UserId" />
 
                 <div class="form-group">
                     <input asp-for="Ticket.ShowId" value="@Model.Show.Id" readonly hidden />
