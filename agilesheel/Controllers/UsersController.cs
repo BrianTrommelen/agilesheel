@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace agilesheel.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;

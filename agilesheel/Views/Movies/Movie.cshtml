@@ -2,13 +2,11 @@
 @model agilesheel.ViewModels.MovieViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Html.DisplayFor(model => model.Movie.Title);
 }
 
 <div class="container">
     <h1>@Html.DisplayFor(model => model.Movie.Title)</h1>
-
-
     <hr />
     <div class="row mb-5">
         <div class="col-6">

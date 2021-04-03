@@ -2,7 +2,7 @@
 @model agilesheel.ViewModels.TicketsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Html.DisplayFor(model => model.Ticket.Code);
 }
 
 <div class="container-fluid">
@@ -15,40 +15,40 @@
         <h2>@Model.Show.StartTime</h2>
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.Name)
+                @Html.DisplayNameFor(model => model.Ticket.Name)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.Name)
+                @Html.DisplayFor(model => model.Ticket.Name)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.Code)
+                @Html.DisplayNameFor(model => model.Ticket.Code)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.Code)
+                @Html.DisplayFor(model => model.Ticket.Code)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.Price)
+                @Html.DisplayNameFor(model => model.Ticket.Price)
             </dt>
             <dd class="col-sm-10">
                 @ViewBag.Price
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.SeatNumber)
+                @Html.DisplayNameFor(model => model.Ticket.SeatNumber)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.SeatNumber)
+                @Html.DisplayFor(model => model.Ticket.SeatNumber)
             </dd>
             <dt class="col-sm-2">
                 Row
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.SeatRowId)
+                @Html.DisplayFor(model => model.Ticket.SeatRowId)
             </dd>
             <dt class="col-sm-2">
                 Theater
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Show.Theater.Name)
+                @Html.DisplayFor(model => model.Show.Theater.Name)
             </dd>
         </dl>
     </div>

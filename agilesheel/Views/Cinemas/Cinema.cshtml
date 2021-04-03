@@ -1,6 +1,10 @@
 ﻿@using agilesheel.Models
 @model agilesheel.ViewModels.CinemaViewModel
 
+@{ 
+    ViewData["Title"] = Html.DisplayFor(model => model.Cinema.Name);
+} 
+
 <div class="container">
     <br />
     <h1>Contact</h1>

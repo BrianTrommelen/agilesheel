@@ -25,7 +25,11 @@ namespace agilesheel.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tickets.Where(t => t.UserId == User.GetUserId()).ToListAsync());
+            var tickets = await _context.Tickets
+                .Where(t => t.UserId == User.GetUserId())
+                .Include(t => t.Show.Movie)
+                .ToListAsync();
+            return View(tickets);
         }
 
         // GET: Tickets/Details/5

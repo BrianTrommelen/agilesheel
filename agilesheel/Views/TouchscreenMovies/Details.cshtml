@@ -2,7 +2,7 @@
 @model agilesheel.ViewModels.MovieViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Html.DisplayFor(model => model.Movie.Title);
 }
 
 <div class="container-fluid">
