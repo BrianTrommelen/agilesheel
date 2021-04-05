@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using agilesheel.Constants;
 
 namespace agilesheel.Controllers
 {
@@ -42,6 +40,9 @@ namespace agilesheel.Controllers
 
                 if (result.Succeeded)
                 {
+                    // Add default the basic role
+                    await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     return RedirectToAction("index", "Homepage");
@@ -64,6 +65,7 @@ namespace agilesheel.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel user)
