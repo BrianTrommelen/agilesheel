@@ -24,6 +24,8 @@ namespace agilesheel.Models.Seeds
             StoreDbContext context = app.ApplicationServices
                 .CreateScope().ServiceProvider.GetRequiredService<StoreDbContext>();
 
+            context.Database.EnsureCreated();
+
             if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();
@@ -196,6 +198,12 @@ namespace agilesheel.Models.Seeds
                         });
 
                 }
+                context.SaveChanges();
+            }
+
+            if (!context.TextBar.Any())
+            {
+                context.TextBar.Add(new TextBar() { Content = "Covid-19 melding!", Hide = false });
                 context.SaveChanges();
             }
         }
