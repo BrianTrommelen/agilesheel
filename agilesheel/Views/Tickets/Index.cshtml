@@ -34,7 +34,7 @@
                     Seatrow
                 </th>
                 <th>
-                    Seatnumber
+                    Movie
                 </th>
             </tr>
         </thead>
@@ -58,7 +58,7 @@
                         @Html.DisplayFor(modelItem => item.SeatRowId)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ShowId)
+                        @Html.DisplayFor(modelItem => item.Show.Movie.Title)
                     </td>
                     <td>
                         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Tickets.Edit)).Result.Succeeded)

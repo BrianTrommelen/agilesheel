@@ -4,7 +4,6 @@ using agilesheel.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +25,7 @@ namespace agilesheel.Controllers
             var model = new PermissionViewModel();
             var allPermissions = new List<RoleClaimsViewModel>();
 
+            // Define permissions from Constants/Roles.cs
             allPermissions.GetPermissions(typeof(Permissions.Tickets), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Movies), roleId);
             allPermissions.GetPermissions(typeof(Permissions.TextBar), roleId);
@@ -38,6 +38,7 @@ namespace agilesheel.Controllers
             var roleClaimValues = claims.Select(a => a.Value).ToList();
             var authorizedClaims = allClaimValues.Intersect(roleClaimValues).ToList();
 
+            // Check if user has permissons en select those
             foreach (var permission in allPermissions)
             {
                 if (authorizedClaims.Any(a => a == permission.Value))

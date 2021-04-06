@@ -2,12 +2,8 @@
 @model agilesheel.ViewModels.CinemaViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cinemas";
 }
-
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
 
 <div class="container">
     <div class="row">
@@ -16,7 +12,7 @@
         <div class="col-12 my-5">
             <a asp-action="Cinema" asp-route-id="@cinema.Id">
                 <div class="media">
-                    <img class="img-fluid mr-5" src="@cinema.LocationImageUrl" width="400" height="400" alt="Alternate Text" />
+                    <img class="img-fluid mr-5" src="@cinema.LocationImageUrl" width="400" height="400" alt="@cinema.Name" />
                     <div class="media-body">
                         <h3>@cinema.Name</h3>
 

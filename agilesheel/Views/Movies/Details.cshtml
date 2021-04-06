@@ -5,7 +5,7 @@
 @model agilesheel.ViewModels.MovieViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Html.DisplayFor(model => model.Movie.Title);
 }
 
 <div class="container">
@@ -22,6 +22,7 @@
     </div>
 
 
+    <h1>@Html.DisplayFor(model => model.Movie.Title)</h1>
     <hr />
     <div class="row mb-5">
         <div class="col-6">
@@ -70,8 +71,6 @@
             </div>
         </div>
     </div>
-    @*<a asp-action="Edit" asp-route-id="@Model.Movie.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>*@
 
     <div class="">
         <table class="table">
@@ -103,9 +102,6 @@
                             @Model.Movie.Length Minutes
                         </td>
                         <td>
-                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                             <a class="btn btn-success" asp-controller="Tickets"
                                asp-action="Create" asp-route-id="@item.Id">Order</a>
                         </td>

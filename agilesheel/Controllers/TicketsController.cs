@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using agilesheel.ViewModels;
@@ -28,7 +26,11 @@ namespace agilesheel.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tickets.Where(t => t.UserId == User.GetUserId()).ToListAsync());
+            var tickets = await _context.Tickets
+                .Where(t => t.UserId == User.GetUserId())
+                .Include(t => t.Show.Movie)
+                .ToListAsync();
+            return View(tickets);
         }
 
         // GET: Tickets/Details/5
@@ -55,7 +57,6 @@ namespace agilesheel.Controllers
 
             ViewBag.Price = String.Format("{0:0.00}", (ticketViewModel.Ticket.Price));
 
-            // ViewBags need to change to viewmodel
             return View(ticketViewModel);
         }
 
@@ -80,6 +81,7 @@ namespace agilesheel.Controllers
 
             ticketViewModel.Seat = ticketViewModel.GetSeatNumber(currentShow);
 
+            // Set the normal price if movie is lower than 120 minutes
             if (ticketViewModel.Movie.Length <= 120)
             {
                 NormalPrice = 8.50;
@@ -87,6 +89,7 @@ namespace agilesheel.Controllers
 
             ViewBag.NormalPrice = String.Format("{0:0.00}", NormalPrice);
 
+            // Discount for children if time is between 6AM and 6PM
             if (ticketViewModel.IsShowInTimeSpan(TimeSpan.FromHours(6), TimeSpan.FromHours(18)))
             {
                 ViewBag.ChildrenPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
@@ -96,6 +99,7 @@ namespace agilesheel.Controllers
                 ViewBag.ChildrenPrice = ViewBag.NormalPrice;
             }
 
+            // Discount for student if day is not friday, saturday or sunday
             if (ticketViewModel.IsShowInWeekDay(DateTime.Now))
             {
                 ViewBag.StudentPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
@@ -115,7 +119,7 @@ namespace agilesheel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber,UserId")] Ticket ticket)
         {
 
             if (ModelState.IsValid)

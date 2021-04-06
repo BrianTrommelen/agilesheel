@@ -1,5 +1,3 @@
-using System;
-
 namespace agilesheel.Models
 {
     public class ErrorViewModel

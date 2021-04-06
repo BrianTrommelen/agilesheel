@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using agilesheel.ViewModels;
@@ -52,8 +51,11 @@ namespace agilesheel.Controllers
                 TextBar = await _context.TextBar.FirstOrDefaultAsync(),
             };
 
+            // Get all the unique movie id's
             List<int> movie_ids = movieViewModel.Shows.Select(m => m.MovieId).Distinct().ToList();
 
+
+            // Add the movie id's to the Movies list to show
             foreach (int movie_id in movie_ids)
             {
                 movieViewModel.Movies.Add(await _context.Movies.FirstOrDefaultAsync(m => m.Id == movie_id));
