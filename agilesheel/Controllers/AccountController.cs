@@ -70,7 +70,7 @@ namespace agilesheel.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel user)
+        public async Task<IActionResult> Login(LoginViewModel user, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -78,6 +78,11 @@ namespace agilesheel.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
                     return RedirectToAction("Index", "Homepage");
                 }
 

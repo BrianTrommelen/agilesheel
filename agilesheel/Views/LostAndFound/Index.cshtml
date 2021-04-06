@@ -1,0 +1,65 @@
+﻿@model IEnumerable<agilesheel.Models.LostAndFound>
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using agilesheel.Constants
+
+@{
+    ViewData["Title"] = "Lost and found";
+}
+
+<div class="container">
+    <h1>Index</h1>
+
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.LostAndFound.Create)).Result.Succeeded)
+    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsFound)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsFound)
+                </td>
+                <td>
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.LostAndFound.Edit)).Result.Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    }
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.LostAndFound.View)).Result.Succeeded)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    }
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.LostAndFound.Delete)).Result.Succeeded)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

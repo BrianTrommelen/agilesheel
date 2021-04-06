@@ -11,16 +11,6 @@ namespace agilesheel.Constants
 
     public static class Permissions
     {
-        public static List<string> GeneratePermissionsForModule(string module)
-        {
-            return new List<string>()
-        {
-            $"Permissions.{module}.Create",
-            $"Permissions.{module}.View",
-            $"Permissions.{module}.Edit",
-            $"Permissions.{module}.Delete",
-        };
-        }
         public static class Tickets
         {
             public const string View = "Permissions.Tickets.View";
@@ -40,6 +30,14 @@ namespace agilesheel.Constants
         public static class TextBar
         {
             public const string Edit = "Permissions.TextBar.Edit";
+        }
+
+        public static class LostAndFound
+        {
+            public const string View = "Permissions.LostAndFound.View";
+            public const string Create = "Permissions.LostAndFound.Create";
+            public const string Edit = "Permissions.LostAndFound.Edit";
+            public const string Delete = "Permissions.LostAndFound.Delete";
         }
     }
 }

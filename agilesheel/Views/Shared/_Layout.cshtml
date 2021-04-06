@@ -62,6 +62,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
                         </li>
                     }
+                    @if (User.IsInRole("Manager") || User.IsInRole("Basic"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="LostAndFound" asp-action="Index">Lost and found</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                     </li>

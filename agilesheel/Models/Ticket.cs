@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace agilesheel.Models
@@ -22,6 +23,8 @@ namespace agilesheel.Models
 
         public string Code { get; set; }
 
+        [DisplayFormat(DataFormatString = "€ {0:n}")]
+        [DisplayName("Price")]
         public double Price { get; set; }
 
         public int SeatNumber { get; set; }

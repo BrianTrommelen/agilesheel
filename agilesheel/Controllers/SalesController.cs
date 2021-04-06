@@ -62,7 +62,7 @@ namespace agilesheel.Controllers
                 saleOverviewPrice = saleOverviewPrice + ticket.Price;
             }
 
-            ViewBag.SalesOverviewPrice = String.Format("{0:0.00}", saleOverviewPrice); ;
+            ViewBag.SalesOverviewPrice = String.Format("€ {0:0.00}", saleOverviewPrice);
             ViewBag.TicketsSold = movieViewModel.Tickets.Count();
 
             return View(movieViewModel);
