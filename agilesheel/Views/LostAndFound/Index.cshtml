@@ -25,6 +25,12 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
+                @if (User.IsInRole("Manager"))
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.User.UserName)
+                    </th>
+                }
                 <th>
                     @Html.DisplayNameFor(model => model.IsFound)
                 </th>
@@ -41,6 +47,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
+                @if (User.IsInRole("Manager"))
+                {
+                    <td>
+                        <a href="mailto:@Html.DisplayFor(modelItem => item.User.UserName)">
+                            @Html.DisplayFor(modelItem => item.User.UserName)
+                        </a>
+                    </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.IsFound)
                 </td>

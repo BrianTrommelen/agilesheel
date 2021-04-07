@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
 @using agilesheel.Constants
+@using agilesheel.Helpers
 @model agilesheel.ViewModels.MovieViewModel
 
 @{
@@ -104,9 +105,44 @@
                                asp-action="Create" asp-route-id="@item.Id">Order</a>
                         </td>
                     </tr>
-                }
+                 }
             </tbody>
         </table>
+
+        @if (Model.Reviews != null) { 
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="card col-md-4">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => review.Name)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => review.User.UserName)</h6>
+                        <p class="card-text">@Html.DisplayFor(modelItem => review.Description)</p>
+                    </div>
+                </div>
+            }
+        }
+
+        @if (User.Identity.IsAuthenticated) {
+         <div class="row mb-5 col-12">
+             <form asp-action="AddReview" method="post">
+                 <input type="hidden" asp-for="Review.UserId" value="@User.GetUserId()" />
+                 <input type="hidden" asp-for="Review.MovieId" value="@Model.Movie.Id" />
+
+                <div class="form-group">
+                    <label asp-for="Review.Name" class="control-label"></label>
+                    <input asp-for="Review.Name" class="form-control">
+                </div>
+
+                 <div class="form-group">
+                    <label asp-for="Review.Description" class="control-label"></label>
+                    <textarea asp-for="Review.Description" class="form-control"></textarea>
+                </div>
+
+                <input type="submit" value="Add Review" class="btn btn-success" />
+             </form>
+         </div>
+        }
+
 
         <a class="btn btn-info" asp-action="Index">Back to List</a>
     </div>

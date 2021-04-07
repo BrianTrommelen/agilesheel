@@ -1,0 +1,11 @@
+﻿@using agilesheel.Models
+@model agilesheel.Models.Review
+
+@{
+    ViewData["Title"] = "Review thank you";
+}
+
+<div class="container">
+    <h1>Thank you for your review</h1>
+    <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.MovieId" class="btn btn-info">Go back to movie</a>
+</div>

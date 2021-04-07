@@ -10,6 +10,8 @@ namespace agilesheel.Models
 
         public ICollection<Show> Shows { get; set; }
 
+        public ICollection<Review> Reviews { get; set; }
+
         public string Title { get; set; }
 
         public int Length { get; set; }

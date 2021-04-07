@@ -18,5 +18,6 @@ namespace agilesheel.Models
         public IQueryable<SeatRow> SeatRows => context.SeatRows;
         public IQueryable<TextBar> TextBar => context.TextBar;
         public IQueryable<LostAndFound> LostAndFound => context.LostAndFound;
+        public IQueryable<Review> Reviews => context.Reviews;
     }
 }

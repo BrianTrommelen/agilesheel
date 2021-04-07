@@ -58,7 +58,8 @@ namespace agilesheel.Controllers
             // Add the movie id's to the Movies list to show
             foreach (int movie_id in movie_ids)
             {
-                movieViewModel.Movies.Add(await _context.Movies.FirstOrDefaultAsync(m => m.Id == movie_id));
+                movieViewModel.Movies.Add(await _context.Movies.Include(m => m.Reviews)
+                    .FirstOrDefaultAsync(m => m.Id == movie_id));
             }
 
             return View(movieViewModel);
@@ -86,6 +87,11 @@ namespace agilesheel.Controllers
 
                 FeaturedMovies = await _context.Movies
                 .Where(s => s.IsFeatured == true)
+                .ToListAsync(),
+
+                Reviews = await _context.Reviews
+                .Where(r => r.MovieId == id)
+                .Include(u => u.User)
                 .ToListAsync()
             };
 
@@ -183,6 +189,14 @@ namespace agilesheel.Controllers
             _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddReview([Bind("Id,Name,Description,MovieId,UserId")] Review review)
+        {
+            _context.Add(review);
+            await _context.SaveChangesAsync();
+            return View("ReviewThankYou", review);
         }
 
         private bool MovieExists(int id)

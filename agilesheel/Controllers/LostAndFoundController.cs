@@ -30,7 +30,7 @@ namespace agilesheel.Controllers
 
             if (User.IsInRole("Manager"))
             {
-                objects = await _context.LostAndFound.ToListAsync();
+                objects = await _context.LostAndFound.Include(o => o.User).ToListAsync();
             }
             else
             {

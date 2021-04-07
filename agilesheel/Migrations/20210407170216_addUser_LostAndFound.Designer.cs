@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using agilesheel.Models;
 
 namespace agilesheel.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210407170216_addUser_LostAndFound")]
+    partial class addUser_LostAndFound
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,34 +315,6 @@ namespace agilesheel.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("agilesheel.Models.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reviews");
-                });
-
             modelBuilder.Entity("agilesheel.Models.SeatRow", b =>
                 {
                     b.Property<int>("Id")
@@ -530,23 +504,6 @@ namespace agilesheel.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("agilesheel.Models.Review", b =>
-                {
-                    b.HasOne("agilesheel.Models.Movie", "Movie")
-                        .WithMany("Review")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("agilesheel.Models.SeatRow", b =>
                 {
                     b.HasOne("agilesheel.Models.Theater", "Theater")
@@ -610,8 +567,6 @@ namespace agilesheel.Migrations
 
             modelBuilder.Entity("agilesheel.Models.Movie", b =>
                 {
-                    b.Navigation("Review");
-
                     b.Navigation("Shows");
                 });
 
