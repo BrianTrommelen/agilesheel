@@ -1,0 +1,78 @@
+﻿@model agilesheel.ViewModels.TicketsViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using agilesheel.Helpers
+
+@{
+    ViewData["Title"] = "Order";
+}
+<div class="container-fluid">
+    <form asp-action="CreateSubscription">
+        <div class="row">
+            <div class="col-12">
+                <h1>Subscription</h1>
+                <hr />
+            </div>
+            <div class="col-md-4">
+
+                <input type="hidden" value="@User.GetUserId()" asp-for="Ticket.UserId" />
+
+                <div class="form-group">
+                    <label asp-for="Ticket.Name" class="control-label"></label>
+                    <input asp-for="Ticket.Name" readonly value="Yearly subscription" class="form-control" />
+                    <span asp-validation-for="Ticket.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Ticket.Code" class="control-label"></label>
+                    <input asp-for="Ticket.Code" readonly class="form-control" />
+                    <span asp-validation-for="Ticket.Code" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" asp-for="Ticket.SeatNumber" readonly value="1" />
+
+
+                <input type="hidden" asp-for="Ticket.SeatRowId" readonly value="1" class="form-control" />
+ 
+                <div class="form-group">
+                    <input type="submit" value="Create subscription" class="btn btn-primary" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-check">
+                                <input class="form-check-input w-auto float-left" type="radio" asp-for="Ticket.Price"
+                                       value="166" id="SubscriptionYearly" checked />
+                                <label class="form-check-label w-100 float-right" for="SubscriptionYearly">Select this option</label>
+                                <span asp-validation-for="Ticket.Price" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-body">Yearly subscription (<strong>€ 166</strong>)</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-check">
+                                <input class="form-check-input w-auto float-left" type="radio" asp-for="Ticket.Price"
+                                       value="24" id="SubscriptionMonthly" />
+                                <label class="form-check-label w-100 float-right" for="SubscriptionMonthly">Select this option</label>
+                                <span asp-validation-for="Ticket.Price" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-body">Monthly subscription (<strong>€ 24</strong>)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-info" asp-controller="Tickets" asp-action="Exchange">Back to Exchange</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

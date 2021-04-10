@@ -122,10 +122,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-check">
+                                <input class="form-check-input w-auto float-left" type="radio" asp-for="Ticket.Price"
+                                       value="50" id="Amount50MoviesPass" />
+                                <label class="form-check-label w-100 float-right" for="Amount50MoviesPass">Select this option</label>
+                                <span asp-validation-for="Ticket.Price" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            10 Movies Pass (<strong>€ 50</strong>)
+                            <ul>
+                                <li>A ticket that will allow you to watch 10 movies</li>
+                                <li>A ticket that will allow you to watch 10 movies</li>
+                                <li>Valid for one year</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div>
-            <a class="btn btn-info" asp-controller="TouchscreenMovies" asp-action="Details" asp-route-id="@Model.Movie.Id">Back to Movie</a>
+            @if (User.IsInRole("Exchange"))
+            {
+                <a class="btn btn-info" asp-controller="Tickets" asp-action="Exchange">Back to Exchange</a>
+
+            }
+            else
+            {
+                <a class="btn btn-info" asp-controller="TouchscreenMovies" asp-action="Details" asp-route-id="@Model.Movie.Id">Back to Movie</a>
+
+            }
         </div>
     </form>
 </div>

@@ -32,6 +32,24 @@ namespace agilesheel.Controllers
             return View(tickets);
         }
 
+        // GET: Tickets
+        public async Task<IActionResult> Exchange()
+        {
+            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 0, 0, 0);
+            MovieViewModel movieViewModel = new MovieViewModel()
+            {
+                Movies = await _context.Movies.ToListAsync(),
+                Shows = await _context.Shows
+                .Include(s => s.Movie)
+                .Include(s => s.Theater)
+                .Where(s => ((s.StartTime > DateTime.Now) && (s.StartTime < end)))
+                .OrderBy(s => s.StartTime)
+               .ToListAsync()
+            };
+
+            return View(movieViewModel);
+        }
+
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -51,8 +69,12 @@ namespace agilesheel.Controllers
             ticketViewModel.Show = await _repo.Shows
                 .Include(s => s.Theater)
                 .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Ticket.ShowId);
-            ticketViewModel.Movie = await _repo.Movies
+            
+            if(ticketViewModel.Ticket.ShowId != null)
+            {
+                ticketViewModel.Movie = await _repo.Movies
                 .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Show.MovieId);
+            }
 
             ViewBag.Price = String.Format("{0:0.00}", (ticketViewModel.Ticket.Price));
 
@@ -119,6 +141,32 @@ namespace agilesheel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber,UserId")] Ticket ticket)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(ticket);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = ticket.Id });
+            }
+
+            return View(ticket);
+        }
+
+        // GET: Tickets/Create
+        public IActionResult CreateSubscription()
+        {
+            TicketsViewModel ticketViewModel = new TicketsViewModel(_repo);
+
+            return View(ticketViewModel);
+        }
+
+        // POST: Tickets/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSubscription([Bind("Id,Name,Code,Price,SeatRowId,SeatNumber")] Ticket ticket)
         {
 
             if (ModelState.IsValid)

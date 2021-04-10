@@ -14,6 +14,7 @@ namespace agilesheel.Controllers
     public class MoviesController : Controller
     {
         private readonly StoreDbContext _context;
+        private readonly IStoreRepository _storeRepository;
 
         public MoviesController(StoreDbContext context)
         {

@@ -10,12 +10,8 @@
 
     <h4>Ticket</h4>
     <hr />
-    @if (@Model.Ticket.ShowId != null)
-    {
-        <h3>@Model.Ticket.Show.Movie.Title</h3>
-        <h4>@Model.Ticket.Show.StartTime</h4>
-    }
-
+    <h3>@Model.Ticket.Show.Movie.Title</h3>
+    <h4>@Model.Ticket.Show.StartTime</h4>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.Name)
@@ -49,11 +45,11 @@
         </dd>
     </dl>
     @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
-    @if (User.IsInRole("Exchange"))
-    {
+    @if (User.IsInRole("Exchange")) 
+    { 
         <a class="btn btn-info" asp-controller="Tickets" asp-action="Exchange">Print ticket</a>
-    }
-    else
+    } 
+    else 
     {
         <a class="btn btn-info" asp-controller="Homepage" asp-action="Index">Print ticket</a>
     }

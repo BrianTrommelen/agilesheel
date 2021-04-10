@@ -1,7 +1,12 @@
 ﻿document.addEventListener('DOMContentLoaded', (event) => {
     if (boolURLContains('Tickets/Create')) {
-        prefilTicketName();
-        createRandomCode(8, 'Ticket_Code');
+        if (boolURLContains('Tickets/CreateSubscription')) {
+            prefilSubscriptionName();
+            createRandomCode(8, 'Ticket_Code');
+        } else {
+            prefilTicketName();
+            createRandomCode(8, 'Ticket_Code');
+        }
     }
 });
 
@@ -30,7 +35,9 @@ function prefilTicketName() {
     const child = document.getElementById('AmountChildrenPrice');
     const student = document.getElementById('AmountStudentsPrice');
     const older = document.getElementById('Amount65Price');
+    const moviesPass = document.getElementById('Amount50MoviesPass');
     const name = document.getElementById('Ticket_Name');
+
     normal.onclick = function () {
         if (normal.checked) { name.value = "Normal" }
     }
@@ -42,5 +49,21 @@ function prefilTicketName() {
     }
     older.onclick = function () {
         if (older.checked) { name.value = "Older person" }
+    }
+    moviesPass.onclick = function () {
+        if (moviesPass.checked) { name.value = "10 Movies Pass" }
+    }
+}
+
+function prefilSubscriptionName() { 
+    const yearlySubscription = document.getElementById('SubscriptionYearly');
+    const monthlySubscription = document.getElementById('SubscriptionMonthly');
+    const name = document.getElementById('Ticket_Name');
+
+    yearlySubscription.onclick = function () {
+        if (yearlySubscription.checked) { name.value = "Yearly Subscription" }
+    }
+    monthlySubscription.onclick = function () {
+        if (monthlySubscription.checked) { name.value = "Monthly Subscription" }
     }
 }

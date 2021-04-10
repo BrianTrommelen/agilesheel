@@ -1,0 +1,62 @@
+﻿@using agilesheel.Models
+@model agilesheel.ViewModels.MovieViewModel
+
+@{
+    ViewData["Title"] = "Exchange";
+}
+<div class="container">
+    <h1 class="mb-3">Exchange view</h1>
+    <h2 class="mb-5">Buy tickets for today's movies</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Movie
+                </th>
+                <th>
+                    Theater
+                </th>
+                <th>
+                    Starts at
+                </th>
+                <th>
+                    Show Duration
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Shows)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Theater.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Length) Minutes
+                    </td>
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                        <a class="btn btn-success" asp-controller="Tickets"
+                           asp-action="Create" asp-route-id="@item.Id">Order</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Cinema Subscriptions</h2>
+
+    <h4>Create subscription</h4>
+    <a class="btn btn-success" asp-controller="Tickets"
+       asp-action="CreateSubscription">Create</a>
+
+</div>

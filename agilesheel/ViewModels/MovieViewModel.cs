@@ -22,6 +22,7 @@ namespace agilesheel.ViewModels
         public Movie Movie { get; set; }
         public List<Show> Shows { get; set; }
         public List<Movie> Movies { get; set; }
+        public List<Theater> Theaters { get; set; }
         public List<Movie> FeaturedMovies { get; set; }
         public TextBar TextBar { get; set; }
     }
