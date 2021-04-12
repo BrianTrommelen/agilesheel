@@ -17,53 +17,54 @@ using System.Configuration;
 namespace agilesheel.Controllers.Tests
 {
     [TestClass()]
-    public class MoviesControllerTests
+    public class TicketsControllerTests
     {
         private readonly StoreDbContext _context;
+        private IStoreRepository _repo;
 
         [TestMethod]
-        public async Task GetMovieIndex()
+        public async Task GetTickets()
         {
             // Arrange 
             var mock = new Mock<StoreDbContext>(_context);
-            var controller = new MoviesController(mock.Object);
+            var controller = new TicketsController(mock.Object, _repo);
 
             // Act 
-            var result = await controller.IndexAsync("", "") as ViewResult;
+            var result = await controller.Index() as ViewResult;
 
             // Assert 
             Assert.IsNotNull(result.ViewName);
         }
 
         [TestMethod]
-        public async Task GetMovieIndexWithParameters()
+        public async Task GetTicketById()
         {
             // Arrange 
             var mock = new Mock<StoreDbContext>(_context);
-            var controller = new MoviesController(mock.Object);
+            var controller = new TicketsController(mock.Object, _repo);
 
             // Act 
-            // Get Movies by Genre and is3D
-            var result = await controller.IndexAsync("Action", "true") as ViewResult;
+            var result = await controller.Details(2) as ViewResult;
 
             // Assert 
             Assert.IsNotNull(result.ViewName);
         }
 
         [TestMethod]
-        public async Task GetMovieDetail()
+        public void PriceTest()
         {
             // Arrange
-            var mock = new Mock<StoreDbContext>(_context);
-            var controller = new MoviesController(mock.Object);
+            var actual = 9.00;
+            var movie = _context.Movies.Find(2);
 
-            // Act 
-            var result = await controller.Movie(1);
-            var okResult = result as OkObjectResult;
+            // Act
+            if (movie.Length <= 120)
+            {
+                actual = actual - 1.50;
+            }
 
-            // Assert 
-            var actualConfiguration = okResult.Value as Configuration;
-            Assert.AreEqual("Details", actualConfiguration);
+            // Assert
+            Assert.AreEqual(7.50, actual);
         }
     }
 }
