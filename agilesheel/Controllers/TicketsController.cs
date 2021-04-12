@@ -27,6 +27,7 @@ namespace agilesheel.Controllers
                 .Where(t => t.UserId == User.GetUserId())
                 .Include(t => t.Show.Movie)
                 .ToListAsync();
+
             return View(tickets);
         }
 
@@ -95,6 +96,7 @@ namespace agilesheel.Controllers
 
                 ticket.Name = rate.Name;
                 ticket.Price = rate.Price;
+                ticket.Code = TicketHelper.GenerateRandomCode();
 
                 var shows = _repo.Shows.Where(s => s.Id == ticket.ShowId)
                             .Include(s => s.Movie);
