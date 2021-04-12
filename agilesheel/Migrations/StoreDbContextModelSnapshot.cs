@@ -287,6 +287,27 @@ namespace agilesheel.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("agilesheel.Models.Rate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Conditions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rates");
+                });
+
             modelBuilder.Entity("agilesheel.Models.SeatRow", b =>
                 {
                     b.Property<int>("Id")

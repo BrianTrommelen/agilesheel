@@ -72,7 +72,7 @@ namespace agilesheel.Controllers
                 return NotFound();
             }
 
-            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 0, 0, 0);
+            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 2, 0, 0, 0);
 
             MovieViewModel movieViewModel = new MovieViewModel()
             {

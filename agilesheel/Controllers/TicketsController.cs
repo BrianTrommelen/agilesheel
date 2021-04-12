@@ -12,8 +12,6 @@ namespace agilesheel.Controllers
     public class TicketsController : Controller
     {
         private readonly StoreDbContext _context;
-        private double NormalPrice = 9.00;
-
         private IStoreRepository _repo;
 
         public TicketsController(StoreDbContext context, IStoreRepository repo)
@@ -77,38 +75,8 @@ namespace agilesheel.Controllers
             ticketViewModel.Shows = _repo.Shows.ToList();
             ticketViewModel.Show = _repo.Shows.FirstOrDefault(x => x.Id == id);
             ticketViewModel.Movie = _repo.Movies.FirstOrDefault(x => x.Id == ticketViewModel.Show.MovieId);
-
             ticketViewModel.Seat = ticketViewModel.GetSeatNumber(currentShow);
-
-            // Set the normal price if movie is lower than 120 minutes
-            if (ticketViewModel.Movie.Length <= 120)
-            {
-                NormalPrice = 8.50;
-            }
-
-            ViewBag.NormalPrice = String.Format("{0:0.00}", NormalPrice);
-
-            // Discount for children if time is between 6AM and 6PM
-            if (ticketViewModel.IsShowInTimeSpan(TimeSpan.FromHours(6), TimeSpan.FromHours(18)))
-            {
-                ViewBag.ChildrenPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
-            }
-            else
-            {
-                ViewBag.ChildrenPrice = ViewBag.NormalPrice;
-            }
-
-            // Discount for student if day is not friday, saturday or sunday
-            if (ticketViewModel.IsShowInWeekDay(DateTime.Now))
-            {
-                ViewBag.StudentPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
-            }
-            else
-            {
-                ViewBag.StudentPrice = ViewBag.NormalPrice;
-            }
-
-            ViewBag.ElderyPrice = String.Format("{0:0.00}", (NormalPrice - 1.50));
+            ticketViewModel.Rates = _repo.Rates.ToList();
 
             return View(ticketViewModel);
         }
@@ -120,9 +88,22 @@ namespace agilesheel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber,UserId")] Ticket ticket)
         {
-
             if (ModelState.IsValid)
             {
+                var rateId = int.Parse(ticket.Name);
+                var rate = _repo.Rates.FirstOrDefault(r => r.Id == rateId);
+
+                ticket.Name = rate.Name;
+                ticket.Price = rate.Price;
+
+                var shows = _repo.Shows.Where(s => s.Id == ticket.ShowId)
+                            .Include(s => s.Movie);
+
+                if (shows.FirstOrDefault().Movie.Length > 120)
+                {
+                    ticket.Price += .50;
+                }
+
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", new { id = ticket.Id });

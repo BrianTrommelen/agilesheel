@@ -175,7 +175,6 @@ namespace agilesheel.Models.Seeds
                     var show1 = moviestart.AddHours(18);
                     var show2 = show1.AddHours(3);
                     var show3 = show2.AddHours(3);
-                    
 
                     context.Shows.AddRange(
                         new Show
@@ -196,8 +195,45 @@ namespace agilesheel.Models.Seeds
                             StartTime = show3,
                             Theater = t
                         });
-
                 }
+
+                context.SaveChanges();
+            }
+
+            if (!context.Rates.Any())
+            {
+                context.Rates.AddRange(
+                    new Rate
+                    {
+                        Name = "Normal ticket",
+                        Conditions = "",
+                        Price = 8.5
+                    },
+                    new Rate
+                    {
+                        Name = "Child discount",
+                        Conditions = "Only for children under de age of 11\r\nOn all shows till 6PM\r\nOnly Dutch spoken movies for childern",
+                        Price = 7
+                    },
+                    new Rate
+                    {
+                        Name = "Student discount",
+                        Conditions = "Only valid by showing a studentpass\r\nOnly valid form monday till thursday",
+                        Price = 7
+                    },
+                    new Rate
+                    {
+                        Name = "65+ ticket",
+                        Conditions = "Only valid by showing a 65+ pass\r\nOnly valid form monday till thursday\r\nNot valid on holidays",
+                        Price = 7
+                    },
+                    new Rate
+                    {
+                        Name = "VIP ticket",
+                        Conditions = "",
+                        Price = 15
+                    });
+
                 context.SaveChanges();
             }
 

@@ -10,8 +10,8 @@ using agilesheel.Models;
 namespace agilesheel.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20210323130002_release-3.2")]
-    partial class release32
+    [Migration("20210411170956_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -287,6 +287,27 @@ namespace agilesheel.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("agilesheel.Models.Rate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Conditions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rates");
                 });
 
             modelBuilder.Entity("agilesheel.Models.SeatRow", b =>

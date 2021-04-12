@@ -22,6 +22,8 @@ namespace agilesheel.Models
 
         public DbSet<TextBar> TextBar { get; set; }
 
+        public DbSet<Rate> Rates { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
