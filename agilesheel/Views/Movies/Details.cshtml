@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="">
+    <div class="row mb-5">
         <table class="table">
             <thead>
                 <tr>
@@ -108,42 +108,51 @@
                  }
             </tbody>
         </table>
-
+    </div>
+        
+    <div class="row">
         @if (Model.Reviews != null) { 
-            @foreach (var review in Model.Reviews)
-            {
-                <div class="card col-md-4">
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => review.Name)</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => review.User.UserName)</h6>
-                        <p class="card-text">@Html.DisplayFor(modelItem => review.Description)</p>
+            <h2 class="col-12">Reviews</h2>
+                @foreach (var review in Model.Reviews) 
+                {
+                    <div class="col-4 float-left mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                @Html.DisplayFor(modelItem => review.Name)
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p class="card-text">@Html.DisplayFor(modelItem => review.Description)</p>
+                                    <footer class="blockquote-footer">@Html.DisplayFor(modelItem => review.User.UserName)</footer>
+                                </blockquote>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             }
-        }
 
         @if (User.Identity.IsAuthenticated) {
-         <div class="row mb-5 col-12">
-             <form asp-action="AddReview" method="post">
-                 <input type="hidden" asp-for="Review.UserId" value="@User.GetUserId()" />
-                 <input type="hidden" asp-for="Review.MovieId" value="@Model.Movie.Id" />
+            <div class="mb-5 col-12">
+                <h4>Add a review yourself</h4>
+                <form asp-action="AddReview" method="post">
+                    <input type="hidden" asp-for="Review.UserId" value="@User.GetUserId()" />
+                    <input type="hidden" asp-for="Review.MovieId" value="@Model.Movie.Id" />
 
-                <div class="form-group">
-                    <label asp-for="Review.Name" class="control-label"></label>
-                    <input asp-for="Review.Name" class="form-control">
-                </div>
+                    <div class="form-group">
+                        <label asp-for="Review.Name" class="control-label"></label>
+                        <input asp-for="Review.Name" class="form-control">
+                    </div>
 
-                 <div class="form-group">
-                    <label asp-for="Review.Description" class="control-label"></label>
-                    <textarea asp-for="Review.Description" class="form-control"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="Review.Description" class="control-label"></label>
+                        <textarea asp-for="Review.Description" class="form-control"></textarea>
+                    </div>
 
-                <input type="submit" value="Add Review" class="btn btn-success" />
-             </form>
-         </div>
-        }
-
-
-        <a class="btn btn-info" asp-action="Index">Back to List</a>
+                    <input type="submit" value="Add Review" class="btn btn-success" />
+                </form>
+            </div>
+            }
     </div>
+    
+    <a class="btn btn-info" asp-action="Index">Back to List</a>
 </div>
