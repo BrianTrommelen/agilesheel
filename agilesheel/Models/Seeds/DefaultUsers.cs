@@ -68,11 +68,17 @@ namespace agilesheel.Models.Seeds
                     await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Roles.Cashier.ToString());
                 }
-                await roleManager.SeedClaimsForAdmin();
+                await roleManager.SeedClaimsForCashier();
             }
         }
 
         private async static Task SeedClaimsForAdmin(this RoleManager<IdentityRole> roleManager)
+        {
+            var adminRole = await roleManager.FindByNameAsync("Admin");
+            await roleManager.AddPermissionClaim(adminRole, "Tickets");
+        }
+
+        private async static Task SeedClaimsForCashier(this RoleManager<IdentityRole> roleManager)
         {
             var adminRole = await roleManager.FindByNameAsync("Admin");
             await roleManager.AddPermissionClaim(adminRole, "Tickets");

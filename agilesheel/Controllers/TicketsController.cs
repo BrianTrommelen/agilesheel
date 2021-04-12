@@ -53,7 +53,7 @@ namespace agilesheel.Controllers
             ticketViewModel.Movie = await _repo.Movies
                 .FirstOrDefaultAsync(m => m.Id == ticketViewModel.Show.MovieId);
 
-            ViewBag.Price = String.Format("{0:0.00}", (ticketViewModel.Ticket.Price));
+            ViewBag.Price = string.Format("{0:0.00}", ticketViewModel.Ticket.Price);
 
             return View(ticketViewModel);
         }
@@ -87,7 +87,7 @@ namespace agilesheel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber,UserId")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,ShowId,Name,Code,Price,SeatRowId,SeatNumber,UserId,VerkoperId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {

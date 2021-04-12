@@ -27,5 +27,7 @@ namespace agilesheel.Models
         public int SeatNumber { get; set; }
 
         public string UserId { get; set; }
+
+        public string VerkoperId { get; set; }
     }
 }

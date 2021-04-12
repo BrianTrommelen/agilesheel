@@ -43,6 +43,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.SeatRowId)
         </dd>
+        <dt class="col-sm-2">
+            Cashier
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(TicketDetailsViewModel => TicketDetailsViewModel.Ticket.VerkoperId)
+        </dd>
     </dl>
     <a class="btn btn-info" asp-controller="Homepage" asp-action="Index">Print ticket</a>
 </div>
