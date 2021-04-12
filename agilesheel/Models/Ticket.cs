@@ -18,6 +18,7 @@ namespace agilesheel.Models
 
         public SeatRow SeatRow { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Code { get; set; }

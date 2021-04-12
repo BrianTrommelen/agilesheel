@@ -3,6 +3,39 @@
 @{
     ViewData["Title"] = "Edit ticket";
 }
+<script type="text/javascript">
+
+    $(document).ready(function () {
+            //Dropdownlist Selectedchange event
+        $("#SeatRowId").change(function () {
+                console.log("pehla andar");
+            $("#SeatNumber").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetMembers")',
+                    dataType: 'json',
+                    data: {
+                        seatRowid: $("#SeatRowId").val(),
+                        showid: @Model.ShowId
+                    },
+                    success: function (mems) {
+                        console.log("wich ayaeee");
+                        // states contains the JSON formatted list
+                        // of states passed from the controller
+                        $.each(mems, function (i, member) {
+                            $("#ddshowMembers").append('<option value="'
+    + member.Value + '">'
+    + member.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve states.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+</script>
 
 <h1>Edit</h1>
 
@@ -24,13 +57,15 @@
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="SeatRowId" class="control-label"></label>
+                <select asp-for="SeatRowId" asp-items="ViewBag.SeatRows">
+                </select>
+                <span asp-validation-for="SeatRowId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SeatNumber" class="control-label"></label>
-                <input asp-for="SeatNumber" class="form-control" />
+                <select asp-for="SeatNumber" asp-items="ViewBag.Seats">
+                </select>
                 <span asp-validation-for="SeatNumber" class="text-danger"></span>
             </div>
             <div class="form-group">

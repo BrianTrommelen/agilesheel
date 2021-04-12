@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using agilesheel.Models;
 using agilesheel.ViewModels;
 using agilesheel.Helpers;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace agilesheel.Controllers
 {
@@ -123,6 +125,27 @@ namespace agilesheel.Controllers
             }
 
             var ticket = await _context.Tickets.FindAsync(id);
+
+            var shows = _repo.Shows.Where(s => s.Id == ticket.ShowId)
+                .Include(s => s.Theater);
+
+            var theaterid = shows.FirstOrDefault().TheaterId;
+
+            ViewBag.SeatRows = new SelectList(_context.SeatRows.Where(sr => (sr.TheaterId == theaterid)), "Id", "RowNumber", ticket.SeatRowId);
+
+            var seats = _context.SeatRows.FindAsync(ticket.SeatRowId).Result.Seats;
+            var availableSeats = new List<int>();
+
+            for (int i = 1; i < seats + 1; i++)
+            {
+                if (!_context.Tickets.Where(t => t.SeatRowId == ticket.SeatRowId && t.ShowId == ticket.ShowId && t.SeatNumber == i).Any())
+                {
+                    availableSeats.Add(i);
+                }
+            }
+
+            ViewBag.Seats = new SelectList(availableSeats);
+
             if (ticket == null)
             {
                 return NotFound();
@@ -130,16 +153,43 @@ namespace agilesheel.Controllers
             return View(ticket);
         }
 
+        public JsonResult GetSeats(int seatRowid, int showid)
+        {
+            var seats = _context.SeatRows.FindAsync(seatRowid).Result.Seats;
+            var availableSeats = new List<int>();
+
+            for (int i = 1; i < seats + 1; i++)
+            {
+                if (!_context.Tickets.Where(t => t.SeatRowId == seatRowid && t.ShowId == showid && t.SeatNumber == i).Any())
+                {
+                    availableSeats.Add(i);
+                }
+            }
+
+            return Json(new SelectList(availableSeats));
+        }
+
         // POST: Tickets/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,Price,SeatNumber")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SeatRowId,Name,Code,Price,SeatNumber")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
                 return NotFound();
+            }
+
+            var t = _context.Tickets.AsNoTracking().Where(t => t.Id == id).FirstOrDefault();
+
+            ticket.ShowId = t.ShowId;
+            ticket.UserId = t.UserId;
+            ticket.Price = t.Price;
+
+            if (User.IsInRole("Cashier"))
+            {
+                ticket.VerkoperId = User.Identity.Name;
             }
 
             if (ModelState.IsValid)

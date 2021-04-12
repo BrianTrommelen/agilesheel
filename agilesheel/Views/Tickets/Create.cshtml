@@ -63,6 +63,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input w-auto float-left" type="radio" value="@r.Id" id="@r.Id" name="Ticket.Name" asp-for="Ticket.Name" />
                                     <label class="form-check-label w-100 float-right" for="@r.Id">Select this option</label>
+                                    <span asp-validation-for="Ticket.Name" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="card-body">
