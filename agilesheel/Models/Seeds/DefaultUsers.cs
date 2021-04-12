@@ -51,6 +51,27 @@ namespace agilesheel.Models.Seeds
             }
         }
 
+        public static async Task SeedCashierAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            var defaultUser = new IdentityUser
+            {
+                UserName = "cashier@test.com",
+                Email = "cashier@test.com",
+                EmailConfirmed = true
+            };
+            if (userManager.Users.All(u => u.Id != defaultUser.Id))
+            {
+                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                if (user == null)
+                {
+                    await userManager.CreateAsync(defaultUser, "Test1234!");
+                    await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
+                    await userManager.AddToRoleAsync(defaultUser, Roles.Cashier.ToString());
+                }
+                await roleManager.SeedClaimsForAdmin();
+            }
+        }
+
         private async static Task SeedClaimsForAdmin(this RoleManager<IdentityRole> roleManager)
         {
             var adminRole = await roleManager.FindByNameAsync("Admin");

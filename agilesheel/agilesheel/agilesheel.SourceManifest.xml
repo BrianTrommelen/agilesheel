@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\Bas\Source\Repos\BrianTrommelen\agilesheel\agilesheel\obj\Release\net5.0\PubTmp\Out\" />
+  <dbfullsql path="C:\Users\Bas\Source\Repos\BrianTrommelen\agilesheel\agilesheel\obj\Release\net5.0\PubTmp\EFSQLScripts\agilesheel.Models.StoreDbContext.sql" />
+</sitemanifest>

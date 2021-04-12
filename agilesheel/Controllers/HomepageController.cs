@@ -23,7 +23,7 @@ namespace agilesheel.Controllers
         public async Task<IActionResult> IndexAsync(string genre, string _3d)
         {
             // Check if user has the right role
-            if(User.IsInRole("Touchscreen") && !User.IsInRole("Admin"))
+            if (User.IsInRole("Touchscreen") && !User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "TouchscreenMovies");
             }
@@ -50,7 +50,7 @@ namespace agilesheel.Controllers
             }
 
             // If current day is after thursday
-            // Count thursday down to the current day, plus the ammount of days that's left
+            // Count thursday down to the current day, plus the amount of days that's left
             if (currentWeekday > endDay)
             {
                 offset = endDay - currentWeekday + 7;
@@ -133,18 +133,11 @@ namespace agilesheel.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (textBar.Id == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(textBar); 
+            return View(textBar);
         }
     }
 }

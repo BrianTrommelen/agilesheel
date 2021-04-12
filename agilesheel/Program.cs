@@ -25,6 +25,7 @@ namespace agilesheel
                     await Models.Seeds.DefaultRoles.SeedAsync(userManager, roleManager);
                     await Models.Seeds.DefaultUsers.SeedBasicUserAsync(userManager, roleManager);
                     await Models.Seeds.DefaultUsers.SeedAdminAsync(userManager, roleManager);
+                    await Models.Seeds.DefaultUsers.SeedCashierAsync(userManager, roleManager);
                     logger.LogInformation("Finished Seeding Default Data");
                     logger.LogInformation("Application Starting");
                 }

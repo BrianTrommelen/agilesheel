@@ -6,7 +6,8 @@ namespace agilesheel.Constants
     {
         Admin,
         Manager,
-        Basic
+        Basic,
+        Cashier
     }
 
     public static class Permissions
