@@ -3,29 +3,26 @@
 @{
     ViewData["Title"] = "Edit ticket";
 }
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
             //Dropdownlist Selectedchange event
         $("#SeatRowId").change(function () {
-                console.log("pehla andar");
             $("#SeatNumber").empty();
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("GetMembers")',
+                    url: '@Url.Action("GetSeats")',
                     dataType: 'json',
                     data: {
                         seatRowid: $("#SeatRowId").val(),
                         showid: @Model.ShowId
                     },
-                    success: function (mems) {
-                        console.log("wich ayaeee");
-                        // states contains the JSON formatted list
-                        // of states passed from the controller
-                        $.each(mems, function (i, member) {
-                            $("#ddshowMembers").append('<option value="'
-    + member.Value + '">'
-    + member.Text + '</option>');
+                    success: function (items) {
+                        $.each(items, function (i, member) {
+                            $("#SeatNumber").append('<option value="'
+                                + member.text + '">'
+                                + member.text + '</option>');
                         });
                     },
                     error: function (ex) {
