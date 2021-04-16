@@ -29,6 +29,10 @@ namespace agilesheel.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Ticket>()
+                .HasOne(s => s.Show)
+                .WithMany(t => t.Tickets);
         }
     }
 }
